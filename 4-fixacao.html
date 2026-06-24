@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade - Completar Código POO | Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #1a1a2e;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #f7971e;
+            margin-bottom: 15px;
+            border-left: 5px solid #f7971e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #b8860b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #f7971e;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #f7971e;
+            color: #1a1a2e;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 12px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-block .lacuna {
+            display: inline-block;
+            background: #2d2d3a;
+            color: #f7971e;
+            padding: 0 8px;
+            border-radius: 4px;
+            border: 1px dashed #f7971e;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .code-block .lacuna-input {
+            background: #2d2d3a;
+            color: #f7971e;
+            border: 1px dashed #f7971e;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            min-width: 100px;
+            text-align: center;
+            outline: none;
+        }
+
+        .code-block .lacuna-input:focus {
+            border-color: #ffd200;
+            background: #1e1e2e;
+        }
+
+        .code-block .lacuna-input.correct {
+            border-color: #28a745;
+            background: #1a3a2a;
+            color: #28a745;
+        }
+
+        .code-block .lacuna-input.wrong {
+            border-color: #dc3545;
+            background: #3a1a1a;
+            color: #dc3545;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #d4890a;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+            color: white;
+        }
+
+        .highlight {
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin: 5px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(247,151,30,0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #f7971e;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f7971e;
+        }
+
+        .feedback-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .feedback-item.correct {
+            color: #28a745;
+        }
+
+        .feedback-item.wrong {
+            color: #dc3545;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #f7971e;
+            color: #1a1a2e;
+        }
+
+        .gabarito-oculto {
+            display: none;
+        }
+
+        .gabarito-oculto.show {
+            display: block;
+        }
+
+        .gabarito-oculto ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .gabarito-oculto ul li {
+            padding: 3px 0;
+            font-size: 13px;
+        }
+
+        .print-area {
+            display: none;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-area {
+                display: block !important;
+            }
+            .card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .code-block {
+                background: #f0f0f0 !important;
+                color: #1a1a2e !important;
+            }
+            .code-block .lacuna-input {
+                background: #e0e0e0 !important;
+                color: #1a1a2e !important;
+                border-color: #999 !important;
+            }
+            .code-block .lacuna-input.correct {
+                background: #d4edda !important;
+                border-color: #28a745 !important;
+            }
+            .code-block .lacuna-input.wrong {
+                background: #f8d7da !important;
+                border-color: #dc3545 !important;
+            }
+            .header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .btn {
+                display: none !important;
+            }
+            .badge {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .result-box {
+                border: 2px solid #f7971e !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.4rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🧪 Atividade - Completar Código POO</h1>
+        <p>Preencha as lacunas para completar as classes</p>
+        <div class="badge-group">
+            <span class="badge">📝 2 desafios</span>
+            <span class="badge">⏱️ ~20 minutos</span>
+            <span class="badge">🎯 Encapsulamento | Getters | Setters | Validação</span>
+        </div>
+    </div>
+
+    <!-- Navegação -->
+    <div class="nav-tabs no-print">
+        <button class="tab-link active" data-tab="d1">🧩 DESAFIO 1</button>
+        <button class="tab-link" data-tab="d2">🧩 DESAFIO 2</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 1: PRODUTO -->
+    <!-- ============================================================ -->
+    <div id="d1" class="tab-content active">
+        <div class="card">
+            <h2>🧩 Desafio 1: Classe Produto (com encapsulamento)</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioProduto.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Complete as lacunas (<code>???</code>) com o código correto
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Execute a classe para testar e veja o resultado no console
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código para completar:</h3>
+            <div class="code-block">
+                <button class="copy-btn no-print" onclick="copyCode(this, 'code-d1')">📋 Copiar código base</button>
+                <pre id="code-d1"><code>package tema07;
+
+public class DesafioProduto {
+    // ATRIBUTOS PRIVADOS
+    <span class="lacuna"><input type="text" class="lacuna-input" id="d1_1" placeholder="???"></span> String nome;
+    <span class="lacuna"><input type="text" class="lacuna-input" id="d1_2" placeholder="???"></span> double preco;
+
+    // ========== GETTERS ==========
+    public String <span class="lacuna"><input type="text" class="lacuna-input" id="d1_3" placeholder="???"></span>() {
+        return nome;
+    }
+
+    public double <span class="lacuna"><input type="text" class="lacuna-input" id="d1_4" placeholder="???"></span>() {
+        return preco;
+    }
+
+    // ========== SETTERS (com validação) ==========
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d1_5" placeholder="???"></span>(String nome) {
+        if (nome != null && !nome.trim().isEmpty()) {
+            this.nome = nome;
+        } else {
+            System.out.println("❌ Nome inválido!");
+        }
+    }
+
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d1_6" placeholder="???"></span>(double preco) {
+        if (preco > 0) {
+            <span class="lacuna"><input type="text" class="lacuna-input" id="d1_7" placeholder="???"></span> = preco;
+        } else {
+            System.out.println("❌ Preço inválido! Deve ser maior que zero.");
+        }
+    }
+
+    // ========== MÉTODOS ==========
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d1_8" placeholder="???"></span>(double percentual) {
+        if (percentual >= 0 && percentual <= 100) {
+            double desconto = preco * (percentual / 100);
+            preco -= desconto;
+            System.out.println("Desconto de " + percentual + "% aplicado!");
+            System.out.println("Novo preço: R$ " + preco);
+        } else {
+            System.out.println("❌ Desconto inválido! Use entre 0 e 100.");
+        }
+    }
+
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d1_9" placeholder="???"></span>() {
+        System.out.println("Produto: " + nome);
+        System.out.println("Preço: R$ " + preco);
+    }
+
+    // ========== MAIN PARA TESTE ==========
+    public static void main(String[] args) {
+        DesafioProduto produto = new DesafioProduto();
+
+        System.out.println("--- TESTE: Valores válidos ---");
+        produto.<span class="lacuna"><input type="text" class="lacuna-input" id="d1_10" placeholder="???"></span>("Notebook");
+        produto.<span class="lacuna"><input type="text" class="lacuna-input" id="d1_11" placeholder="???"></span>(2500.0);
+        produto.<span class="lacuna"><input type="text" class="lacuna-input" id="d1_12" placeholder="???"></span>();
+
+        System.out.println("\n--- APLICANDO DESCONTO ---");
+        produto.<span class="lacuna"><input type="text" class="lacuna-input" id="d1_13" placeholder="???"></span>(15);
+
+        System.out.println("\n--- TESTE: Valores INVÁLIDOS ---");
+        produto.<span class="lacuna"><input type="text" class="lacuna-input" id="d1_14" placeholder="???"></span>("");          // ❌ Bloqueado!
+        produto.<span class="lacuna"><input type="text" class="lacuna-input" id="d1_15" placeholder="???"></span>(-100);       // ❌ Bloqueado!
+        produto.<span class="lacuna"><input type="text" class="lacuna-input" id="d1_16" placeholder="???"></span>(150); // ❌ Bloqueado!
+    }
+}</code></pre>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;" class="no-print">
+                <button class="btn" onclick="corrigirD1()">✅ Verificar Respostas</button>
+                <button class="btn btn-secondary" onclick="limparD1()">🔄 Limpar</button>
+            </div>
+
+            <!-- Resultado -->
+            <div class="result-box" id="resultado-d1">
+                <h2>📊 Resultado - Desafio 1</h2>
+                <div class="score" id="pontuacao-d1">0/16</div>
+                <p style="margin: 10px 0;">Respostas corretas:</p>
+                <div id="feedback-d1"></div>
+                <div style="margin-top: 15px;" class="no-print">
+                    <button class="btn btn-success" onclick="window.print()">🖨️ Imprimir como PDF</button>
+                </div>
+                <div class="highlight info" style="margin-top: 15px;">
+                    📸 <strong>IMPORTANTE:</strong> Clique em "Imprimir como PDF" para salvar o resultado.
+                </div>
+                <!-- Gabarito oculto - só aparece após finalizar -->
+                <div class="gabarito-oculto" id="gabarito-d1">
+                    <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                        🎯 <strong>RESPOSTAS ESPERADAS:</strong>
+                        <ul>
+                            <li><strong>1-2:</strong> private</li>
+                            <li><strong>3:</strong> getNome</li>
+                            <li><strong>4:</strong> getPreco</li>
+                            <li><strong>5:</strong> setNome</li>
+                            <li><strong>6:</strong> setPreco</li>
+                            <li><strong>7:</strong> this.preco</li>
+                            <li><strong>8:</strong> aplicarDesconto</li>
+                            <li><strong>9:</strong> exibirInfo</li>
+                            <li><strong>10:</strong> setNome</li>
+                            <li><strong>11:</strong> setPreco</li>
+                            <li><strong>12:</strong> exibirInfo</li>
+                            <li><strong>13:</strong> aplicarDesconto</li>
+                            <li><strong>14:</strong> setNome</li>
+                            <li><strong>15:</strong> setPreco</li>
+                            <li><strong>16:</strong> aplicarDesconto</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 2: CONTABANCARIA -->
+    <!-- ============================================================ -->
+    <div id="d2" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 2: Classe ContaBancaria</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioConta.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Complete as lacunas (<code>???</code>) com o código correto
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Execute a classe para testar e veja o resultado no console
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código para completar:</h3>
+            <div class="code-block">
+                <button class="copy-btn no-print" onclick="copyCode(this, 'code-d2')">📋 Copiar código base</button>
+                <pre id="code-d2"><code>package tema07;
+
+public class DesafioConta {
+    // ATRIBUTOS PRIVADOS
+    private String titular;
+    private int numero;
+    private <span class="lacuna"><input type="text" class="lacuna-input" id="d2_1" placeholder="???"></span> saldo;
+
+    // ========== GETTERS ==========
+    public String <span class="lacuna"><input type="text" class="lacuna-input" id="d2_2" placeholder="???"></span>() {
+        return titular;
+    }
+
+    public int <span class="lacuna"><input type="text" class="lacuna-input" id="d2_3" placeholder="???"></span>() {
+        return numero;
+    }
+
+    public double <span class="lacuna"><input type="text" class="lacuna-input" id="d2_4" placeholder="???"></span>() {
+        return saldo;
+    }
+
+    // ========== SETTERS ==========
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d2_5" placeholder="???"></span>(String titular) {
+        if (titular != null && !titular.trim().isEmpty()) {
+            this.titular = titular;
+        } else {
+            System.out.println("❌ Titular inválido!");
+        }
+    }
+
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d2_6" placeholder="???"></span>(int numero) {
+        if (numero > 0) {
+            this.numero = numero;
+        } else {
+            System.out.println("❌ Número da conta inválido!");
+        }
+    }
+
+    // ========== MÉTODOS ==========
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d2_7" placeholder="???"></span>(double valor) {
+        if (valor > 0) {
+            saldo += valor;
+            System.out.println("Depósito de R$ " + valor + " realizado!");
+            System.out.println("Saldo atual: R$ " + saldo);
+        } else {
+            System.out.println("❌ Valor de depósito inválido!");
+        }
+    }
+
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d2_8" placeholder="???"></span>(double valor) {
+        if (valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            System.out.println("Saque de R$ " + valor + " realizado!");
+            System.out.println("Saldo atual: R$ " + saldo);
+        } else if (valor <= 0) {
+            System.out.println("❌ Valor de saque inválido!");
+        } else {
+            System.out.println("❌ Saldo insuficiente!");
+        }
+    }
+
+    public void <span class="lacuna"><input type="text" class="lacuna-input" id="d2_9" placeholder="???"></span>() {
+        System.out.println("Titular: " + titular);
+        System.out.println("Número: " + numero);
+        System.out.println("Saldo: R$ " + saldo);
+    }
+
+    // ========== MAIN PARA TESTE ==========
+    public static void main(String[] args) {
+        DesafioConta conta = new DesafioConta();
+
+        System.out.println("--- TESTE: Operações válidas ---");
+        conta.<span class="lacuna"><input type="text" class="lacuna-input" id="d2_10" placeholder="???"></span>("Maria Santos");
+        conta.<span class="lacuna"><input type="text" class="lacuna-input" id="d2_11" placeholder="???"></span>(12345);
+        conta.<span class="lacuna"><input type="text" class="lacuna-input" id="d2_12" placeholder="???"></span>();
+
+        System.out.println("\n--- DEPOSITANDO ---");
+        conta.<span class="lacuna"><input type="text" class="lacuna-input" id="d2_13" placeholder="???"></span>(1000);
+
+        System.out.println("\n--- SACANDO ---");
+        conta.<span class="lacuna"><input type="text" class="lacuna-input" id="d2_14" placeholder="???"></span>(300);
+
+        System.out.println("\n--- TESTE: Operações INVÁLIDAS ---");
+        conta.<span class="lacuna"><input type="text" class="lacuna-input" id="d2_15" placeholder="???"></span>(-50);      // ❌ Bloqueado!
+        conta.<span class="lacuna"><input type="text" class="lacuna-input" id="d2_16" placeholder="???"></span>(1000);     // ❌ Saldo insuficiente!
+        conta.<span class="lacuna"><input type="text" class="lacuna-input" id="d2_17" placeholder="???"></span>();
+    }
+}</code></pre>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;" class="no-print">
+                <button class="btn" onclick="corrigirD2()">✅ Verificar Respostas</button>
+                <button class="btn btn-secondary" onclick="limparD2()">🔄 Limpar</button>
+            </div>
+
+            <!-- Resultado -->
+            <div class="result-box" id="resultado-d2">
+                <h2>📊 Resultado - Desafio 2</h2>
+                <div class="score" id="pontuacao-d2">0/17</div>
+                <p style="margin: 10px 0;">Respostas corretas:</p>
+                <div id="feedback-d2"></div>
+                <div style="margin-top: 15px;" class="no-print">
+                    <button class="btn btn-success" onclick="window.print()">🖨️ Imprimir como PDF</button>
+                </div>
+                <div class="highlight info" style="margin-top: 15px;">
+                    📸 <strong>IMPORTANTE:</strong> Clique em "Imprimir como PDF" para salvar o resultado.
+                </div>
+                <!-- Gabarito oculto - só aparece após finalizar -->
+                <div class="gabarito-oculto" id="gabarito-d2">
+                    <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                        🎯 <strong>RESPOSTAS ESPERADAS:</strong>
+                        <ul>
+                            <li><strong>1:</strong> double</li>
+                            <li><strong>2:</strong> getTitular</li>
+                            <li><strong>3:</strong> getNumero</li>
+                            <li><strong>4:</strong> getSaldo</li>
+                            <li><strong>5:</strong> setTitular</li>
+                            <li><strong>6:</strong> setNumero</li>
+                            <li><strong>7:</strong> depositar</li>
+                            <li><strong>8:</strong> sacar</li>
+                            <li><strong>9:</strong> exibirSaldo</li>
+                            <li><strong>10:</strong> setTitular</li>
+                            <li><strong>11:</strong> setNumero</li>
+                            <li><strong>12:</strong> exibirSaldo</li>
+                            <li><strong>13:</strong> depositar</li>
+                            <li><strong>14:</strong> sacar</li>
+                            <li><strong>15:</strong> depositar</li>
+                            <li><strong>16:</strong> sacar</li>
+                            <li><strong>17:</strong> exibirSaldo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer no-print">
+        <p>📚 TEMA 07 - POO | Atividade de Completar Código</p>
+        <p>🎯 Pratique encapsulamento com getters, setters e validações!</p>
+    </div>
+</div>
+
+<button class="btn-top no-print" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // ============================================================
+    // GABARITO DESAFIO 1
+    // ============================================================
+    const gabaritoD1 = {
+        d1_1: 'private',
+        d1_2: 'private',
+        d1_3: 'getNome',
+        d1_4: 'getPreco',
+        d1_5: 'setNome',
+        d1_6: 'setPreco',
+        d1_7: 'this.preco',
+        d1_8: 'aplicarDesconto',
+        d1_9: 'exibirInfo',
+        d1_10: 'setNome',
+        d1_11: 'setPreco',
+        d1_12: 'exibirInfo',
+        d1_13: 'aplicarDesconto',
+        d1_14: 'setNome',
+        d1_15: 'setPreco',
+        d1_16: 'aplicarDesconto'
+    };
+
+    function corrigirD1() {
+        let acertos = 0;
+        let feedbackHTML = '';
+        const total = Object.keys(gabaritoD1).length;
+
+        for (let [id, resposta] of Object.entries(gabaritoD1)) {
+            const input = document.getElementById(id);
+            const valorUsuario = input.value.trim();
+
+            if (valorUsuario === '') {
+                input.className = 'lacuna-input';
+                feedbackHTML += `<div class="feedback-item wrong">❌ Lacuna ${id.replace('d1_', '')} - Não respondida</div>`;
+                continue;
+            }
+
+            const isCorrect = valorUsuario === resposta;
+
+            if (isCorrect) {
+                acertos++;
+                input.className = 'lacuna-input correct';
+                feedbackHTML += `<div class="feedback-item correct">✅ Lacuna ${id.replace('d1_', '')} - Correta</div>`;
+            } else {
+                input.className = 'lacuna-input wrong';
+                feedbackHTML += `<div class="feedback-item wrong">❌ Lacuna ${id.replace('d1_', '')} - Esperado "${resposta}"</div>`;
+            }
+        }
+
+        document.getElementById('pontuacao-d1').textContent = acertos + '/' + total;
+        document.getElementById('feedback-d1').innerHTML = feedbackHTML;
+        document.getElementById('resultado-d1').classList.add('show');
+        document.getElementById('gabarito-d1').classList.add('show');
+
+        if (acertos === total) {
+            document.getElementById('feedback-d1').innerHTML += `
+                <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                    🎉 <strong>PARABÉNS! Você acertou todas!</strong> Excelente domínio do encapsulamento!
+                </div>
+            `;
+        } else if (acertos >= 12) {
+            document.getElementById('feedback-d1').innerHTML += `
+                <div class="highlight tip" style="margin-top: 15px; text-align: left;">
+                    💪 <strong>Bom trabalho!</strong> Revise apenas as lacunas que errou para fixar melhor.
+                </div>
+            `;
+        } else {
+            document.getElementById('feedback-d1').innerHTML += `
+                <div class="highlight warning" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Que tal revisar os exemplos novamente?</strong> Pratique os conceitos de encapsulamento!
+                </div>
+            `;
+        }
+
+        document.getElementById('resultado-d1').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function limparD1() {
+        for (let id of Object.keys(gabaritoD1)) {
+            const input = document.getElementById(id);
+            input.value = '';
+            input.className = 'lacuna-input';
+        }
+        document.getElementById('resultado-d1').classList.remove('show');
+        document.getElementById('gabarito-d1').classList.remove('show');
+    }
+
+    // ============================================================
+    // GABARITO DESAFIO 2
+    // ============================================================
+    const gabaritoD2 = {
+        d2_1: 'double',
+        d2_2: 'getTitular',
+        d2_3: 'getNumero',
+        d2_4: 'getSaldo',
+        d2_5: 'setTitular',
+        d2_6: 'setNumero',
+        d2_7: 'depositar',
+        d2_8: 'sacar',
+        d2_9: 'exibirSaldo',
+        d2_10: 'setTitular',
+        d2_11: 'setNumero',
+        d2_12: 'exibirSaldo',
+        d2_13: 'depositar',
+        d2_14: 'sacar',
+        d2_15: 'depositar',
+        d2_16: 'sacar',
+        d2_17: 'exibirSaldo'
+    };
+
+    function corrigirD2() {
+        let acertos = 0;
+        let feedbackHTML = '';
+        const total = Object.keys(gabaritoD2).length;
+
+        for (let [id, resposta] of Object.entries(gabaritoD2)) {
+            const input = document.getElementById(id);
+            const valorUsuario = input.value.trim();
+
+            if (valorUsuario === '') {
+                input.className = 'lacuna-input';
+                feedbackHTML += `<div class="feedback-item wrong">❌ Lacuna ${id.replace('d2_', '')} - Não respondida</div>`;
+                continue;
+            }
+
+            const isCorrect = valorUsuario === resposta;
+
+            if (isCorrect) {
+                acertos++;
+                input.className = 'lacuna-input correct';
+                feedbackHTML += `<div class="feedback-item correct">✅ Lacuna ${id.replace('d2_', '')} - Correta</div>`;
+            } else {
+                input.className = 'lacuna-input wrong';
+                feedbackHTML += `<div class="feedback-item wrong">❌ Lacuna ${id.replace('d2_', '')} - Esperado "${resposta}"</div>`;
+            }
+        }
+
+        document.getElementById('pontuacao-d2').textContent = acertos + '/' + total;
+        document.getElementById('feedback-d2').innerHTML = feedbackHTML;
+        document.getElementById('resultado-d2').classList.add('show');
+        document.getElementById('gabarito-d2').classList.add('show');
+
+        if (acertos === total) {
+            document.getElementById('feedback-d2').innerHTML += `
+                <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                    🎉 <strong>PARABÉNS! Você acertou todas!</strong> Excelente domínio de encapsulamento com validações!
+                </div>
+            `;
+        } else if (acertos >= 13) {
+            document.getElementById('feedback-d2').innerHTML += `
+                <div class="highlight tip" style="margin-top: 15px; text-align: left;">
+                    💪 <strong>Bom trabalho!</strong> Revise apenas as lacunas que errou para fixar melhor.
+                </div>
+            `;
+        } else {
+            document.getElementById('feedback-d2').innerHTML += `
+                <div class="highlight warning" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Que tal revisar os exemplos novamente?</strong> Pratique os conceitos de encapsulamento!
+                </div>
+            `;
+        }
+
+        document.getElementById('resultado-d2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function limparD2() {
+        for (let id of Object.keys(gabaritoD2)) {
+            const input = document.getElementById(id);
+            input.value = '';
+            input.className = 'lacuna-input';
+        }
+        document.getElementById('resultado-d2').classList.remove('show');
+        document.getElementById('gabarito-d2').classList.remove('show');
+    }
+
+    // ============================================================
+    // COPIAR CÓDIGO
+    // ============================================================
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        let textToCopy = codeElement.innerText;
+
+        // Remove os placeholders de input para copiar o código limpo
+        textToCopy = textToCopy.replace(/<input[^>]*>/g, '???');
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+
+    // ============================================================
+    // SISTEMA DE ABAS
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+
+                tabLinks.forEach(l => l.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    });
+</script>
+</body>
+</html>

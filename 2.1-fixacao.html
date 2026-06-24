@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício de Fixação - POO | Desafios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #1a1a2e;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #f7971e;
+            margin-bottom: 15px;
+            border-left: 5px solid #f7971e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #b8860b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .question {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid #f7971e;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #f7971e;
+            color: #1a1a2e;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .question-text code {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .option input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .option label {
+            font-size: 14px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .option.wrong {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .option.disabled {
+            opacity: 0.7;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin: 5px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(247,151,30,0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #f7971e;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f7971e;
+        }
+
+        .feedback-item {
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .feedback-item.correct {
+            color: #28a745;
+        }
+
+        .feedback-item.wrong {
+            color: #dc3545;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+        }
+
+        .print-area {
+            display: none;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-area {
+                display: block !important;
+            }
+            .card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .badge {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .option.correct {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .option.wrong {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .result-box {
+                border: 2px solid #f7971e !important;
+            }
+            .btn {
+                display: none !important;
+            }
+            .question {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.4rem; }
+            .options { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>📝 Exercício de Fixação - POO</h1>
+        <p>Desafios: Livro | Produto | Carro</p>
+        <div class="badge-group">
+            <span class="badge">📝 12 questões</span>
+            <span class="badge">⏱️ ~15 minutos</span>
+            <span class="badge">🎯 Classes | Objetos | Encapsulamento</span>
+        </div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+    <div class="card no-print">
+        <h2>📖 Instruções</h2>
+        <p>Responda as <strong>12 questões</strong> sobre os desafios de POO.</p>
+        <p>Ao final, clique em <strong>"Verificar Respostas"</strong> para corrigir e ver seu desempenho.</p>
+        <p>Você pode <strong>imprimir</strong> o resultado com o gabarito clicando no botão ao final.</p>
+
+        <div class="highlight tip">
+            💡 <strong>DICA:</strong> Revise os exemplos dos desafios antes de começar!
+        </div>
+    </div>
+
+    <!-- QUESTÕES -->
+    <div class="card" id="testes">
+        <h2>✏️ Responda as questões</h2>
+
+        <!-- ==================== DESAFIO 1: LIVRO ==================== -->
+        <h3>📚 Desafio 1: Classe Livro</h3>
+
+        <!-- Q1 -->
+        <div class="question" id="q1">
+            <div class="question-text">
+                <span class="question-number">1</span>
+                Qual é o nome correto da classe para o Desafio Livro?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q1" value="A"><label>DesafioLivros</label></div>
+                <div class="option"><input type="radio" name="q1" value="B"><label>DesafioLivro</label></div>
+                <div class="option"><input type="radio" name="q1" value="C"><label>LivroDesafio</label></div>
+                <div class="option"><input type="radio" name="q1" value="D"><label>Desafio_Livro</label></div>
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question" id="q2">
+            <div class="question-text">
+                <span class="question-number">2</span>
+                Quais são os atributos da classe Livro?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q2" value="A"><label>nome, autor, ano</label></div>
+                <div class="option"><input type="radio" name="q2" value="B"><label>titulo, autor, anoPublicacao</label></div>
+                <div class="option"><input type="radio" name="q2" value="C"><label>titulo, escritor, data</label></div>
+                <div class="option"><input type="radio" name="q2" value="D"><label>nome, escritor, publicacao</label></div>
+            </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question" id="q3">
+            <div class="question-text">
+                <span class="question-number">3</span>
+                Qual método exibe as informações do livro?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q3" value="A"><label>mostrar()</label></div>
+                <div class="option"><input type="radio" name="q3" value="B"><label>exibirLivro()</label></div>
+                <div class="option"><input type="radio" name="q3" value="C"><label>exibirInfo()</label></div>
+                <div class="option"><input type="radio" name="q3" value="D"><label>info()</label></div>
+            </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question" id="q4">
+            <div class="question-text">
+                <span class="question-number">4</span>
+                O que faz o método <code>main</code> no Desafio Livro?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q4" value="A"><label>Define os atributos do livro</label></div>
+                <div class="option"><input type="radio" name="q4" value="B"><label>Cria e testa um objeto Livro</label></div>
+                <div class="option"><input type="radio" name="q4" value="C"><label>Exibe o livro</label></div>
+                <div class="option"><input type="radio" name="q4" value="D"><label>Importa a classe Livro</label></div>
+            </div>
+        </div>
+
+        <!-- ==================== DESAFIO 2: PRODUTO ==================== -->
+        <h3 style="margin-top: 25px;">📦 Desafio 2: Classe Produto (Encapsulamento)</h3>
+
+        <!-- Q5 -->
+        <div class="question" id="q5">
+            <div class="question-text">
+                <span class="question-number">5</span>
+                Qual modificador de acesso deve ser usado nos atributos do Produto?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q5" value="A"><label>public</label></div>
+                <div class="option"><input type="radio" name="q5" value="B"><label>private</label></div>
+                <div class="option"><input type="radio" name="q5" value="C"><label>protected</label></div>
+                <div class="option"><input type="radio" name="q5" value="D"><label>static</label></div>
+            </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question" id="q6">
+            <div class="question-text">
+                <span class="question-number">6</span>
+                Quais são os atributos da classe Produto?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q6" value="A"><label>nome e preco</label></div>
+                <div class="option"><input type="radio" name="q6" value="B"><label>produto e valor</label></div>
+                <div class="option"><input type="radio" name="q6" value="C"><label>nome, preco e quantidade</label></div>
+                <div class="option"><input type="radio" name="q6" value="D"><label>produto, preco e estoque</label></div>
+            </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question" id="q7">
+            <div class="question-text">
+                <span class="question-number">7</span>
+                O que o setter de preço deve validar?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q7" value="A"><label>Preço deve ser diferente de zero</label></div>
+                <div class="option"><input type="radio" name="q7" value="B"><label>Preço deve ser maior que zero</label></div>
+                <div class="option"><input type="radio" name="q7" value="C"><label>Preço deve ser menor que 100</label></div>
+                <div class="option"><input type="radio" name="q7" value="D"><label>Preço deve ser inteiro</label></div>
+            </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question" id="q8">
+            <div class="question-text">
+                <span class="question-number">8</span>
+                Qual método aplica desconto ao produto?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q8" value="A"><label>desconto()</label></div>
+                <div class="option"><input type="radio" name="q8" value="B"><label>aplicarDesconto()</label></div>
+                <div class="option"><input type="radio" name="q8" value="C"><label>reduzirPreco()</label></div>
+                <div class="option"><input type="radio" name="q8" value="D"><label>calcularDesconto()</label></div>
+            </div>
+        </div>
+
+        <!-- ==================== DESAFIO 3: CARRO ==================== -->
+        <h3 style="margin-top: 25px;">🚗 Desafio 3: Classe Carro (com Main separado)</h3>
+
+        <!-- Q9 -->
+        <div class="question" id="q9">
+            <div class="question-text">
+                <span class="question-number">9</span>
+                Por que o Desafio 3 usa duas classes separadas?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q9" value="A"><label>Para organizar o código</label></div>
+                <div class="option"><input type="radio" name="q9" value="B"><label>Porque o Carro é muito grande</label></div>
+                <div class="option"><input type="radio" name="q9" value="C"><label>Para testar a herança</label></div>
+                <div class="option"><input type="radio" name="q9" value="D"><label>Não há motivo específico</label></div>
+            </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question" id="q10">
+            <div class="question-text">
+                <span class="question-number">10</span>
+                Qual arquivo contém o método <code>main</code> no Desafio Carro?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q10" value="A"><label>DesafioCarro.java</label></div>
+                <div class="option"><input type="radio" name="q10" value="B"><label>TesteDesafioCarro.java</label></div>
+                <div class="option"><input type="radio" name="q10" value="C"><label>Carro.java</label></div>
+                <div class="option"><input type="radio" name="q10" value="D"><label>Main.java</label></div>
+            </div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="question" id="q11">
+            <div class="question-text">
+                <span class="question-number">11</span>
+                Quanto a velocidade aumenta ao chamar <code>acelerar()</code>?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q11" value="A"><label>5 km/h</label></div>
+                <div class="option"><input type="radio" name="q11" value="B"><label>10 km/h</label></div>
+                <div class="option"><input type="radio" name="q11" value="C"><label>15 km/h</label></div>
+                <div class="option"><input type="radio" name="q11" value="D"><label>20 km/h</label></div>
+            </div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="question" id="q12">
+            <div class="question-text">
+                <span class="question-number">12</span>
+                Quanto a velocidade diminui ao chamar <code>frear()</code>?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q12" value="A"><label>5 km/h</label></div>
+                <div class="option"><input type="radio" name="q12" value="B"><label>10 km/h</label></div>
+                <div class="option"><input type="radio" name="q12" value="C"><label>15 km/h</label></div>
+                <div class="option"><input type="radio" name="q12" value="D"><label>20 km/h</label></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;" class="no-print">
+            <button class="btn" onclick="corrigirQuiz()">✅ Verificar Respostas</button>
+            <button class="btn btn-secondary" onclick="limparQuiz()">🔄 Limpar respostas</button>
+        </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="card result-box" id="resultado">
+        <h2>📊 Resultado do Exercício</h2>
+        <div class="score" id="pontuacao">0 / 12</div>
+        <p style="margin: 10px 0;">Respostas corretas:</p>
+        <div id="feedback"></div>
+
+        <div style="margin-top: 20px;" class="no-print">
+            <button class="btn btn-success" onclick="window.print()">🖨️ Imprimir Gabarito (PDF)</button>
+        </div>
+        <div class="highlight info" style="margin-top: 15px;">
+            📸 <strong>IMPORTANTE:</strong> Clique em "Imprimir Gabarito" para salvar o resultado em PDF.
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer no-print">
+        <p>📚 TEMA 07 - POO | Exercício de Fixação</p>
+        <p>🎯 Teste seus conhecimentos sobre classes e encapsulamento!</p>
+    </div>
+</div>
+
+<button class="btn-top no-print" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // GABARITO OFICIAL
+    const gabarito = {
+        q1: 'B',
+        q2: 'B',
+        q3: 'C',
+        q4: 'B',
+        q5: 'B',
+        q6: 'A',
+        q7: 'B',
+        q8: 'B',
+        q9: 'A',
+        q10: 'B',
+        q11: 'B',
+        q12: 'A'
+    };
+
+    function corrigirQuiz() {
+        let acertos = 0;
+        let feedbackHTML = '';
+        let todasRespondidas = true;
+
+        for (let [id, gab] of Object.entries(gabarito)) {
+            const selected = document.querySelector(`input[name="${id}"]:checked`);
+            const questionDiv = document.getElementById(id);
+            const options = questionDiv.querySelectorAll('.option');
+
+            if (!selected) {
+                todasRespondidas = false;
+                options.forEach(opt => opt.classList.add('disabled'));
+                continue;
+            }
+
+            const resposta = selected.value;
+            const isCorrect = resposta === gab;
+
+            options.forEach(opt => {
+                const radio = opt.querySelector('input[type="radio"]');
+                if (radio.value === gab) {
+                    opt.classList.add('correct');
+                } else if (radio.checked && radio.value !== gab) {
+                    opt.classList.add('wrong');
+                }
+                radio.disabled = true;
+            });
+
+            const num = id.replace('q', '');
+            if (isCorrect) {
+                acertos++;
+                feedbackHTML += `<div class="feedback-item correct">✅ Q${num} - Correta</div>`;
+            } else {
+                feedbackHTML += `<div class="feedback-item wrong">❌ Q${num} - Incorreta (resposta: ${gab})</div>`;
+            }
+        }
+
+        if (!todasRespondidas) {
+            alert('⚠️ Responda todas as questões antes de finalizar!');
+            return;
+        }
+
+        document.getElementById('pontuacao').textContent = acertos + ' / 12';
+        document.getElementById('feedback').innerHTML = feedbackHTML;
+        document.getElementById('resultado').classList.add('show');
+
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Mensagem extra
+        let mensagem = '';
+        if (acertos === 12) {
+            mensagem = `
+                <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                    🎉 <strong>PARABÉNS! Você acertou todas!</strong> Excelente domínio dos conceitos de POO!
+                </div>
+            `;
+        } else if (acertos >= 9) {
+            mensagem = `
+                <div class="highlight tip" style="margin-top: 15px; text-align: left;">
+                    💪 <strong>Bom trabalho!</strong> Você acertou ${acertos}/12. Revise os tópicos que errou!
+                </div>
+            `;
+        } else if (acertos >= 6) {
+            mensagem = `
+                <div class="highlight info" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Continue praticando!</strong> Você acertou ${acertos}/12. Reveja os desafios para fixar!
+                </div>
+            `;
+        } else {
+            mensagem = `
+                <div class="highlight warning" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Que tal revisar os exemplos novamente?</strong> Você acertou ${acertos}/12. Pratique mais!
+                </div>
+            `;
+        }
+        document.getElementById('feedback').innerHTML += mensagem;
+    }
+
+    function limparQuiz() {
+        const radios = document.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => {
+            radio.checked = false;
+            radio.disabled = false;
+        });
+
+        const options = document.querySelectorAll('.option');
+        options.forEach(opt => {
+            opt.classList.remove('correct', 'wrong', 'disabled');
+        });
+
+        document.getElementById('resultado').classList.remove('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>

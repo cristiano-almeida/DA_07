@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMA 07 - POO | Conceitos Iniciais em Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #1a1a2e;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #f7971e;
+            color: #1a1a2e;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #f7971e;
+            margin-bottom: 15px;
+            border-left: 5px solid #f7971e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #b8860b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .card h4 {
+            color: #2c5364;
+            margin: 12px 0 8px 0;
+            font-size: 1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #f7971e;
+            font-size: 0.95rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #f7971e;
+            color: #1a1a2e;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 3px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #d4890a;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+            color: white;
+        }
+
+        .highlight {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #f7971e;
+            color: #1a1a2e;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .pilar-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #f7971e;
+        }
+
+        .pilar-box strong {
+            color: #b8860b;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 0 0 18px 18px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .activity-badge {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .tree {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .exemplo-saida {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .objetivo-box {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-left: 4px solid #f7971e;
+        }
+
+        .file-highlight {
+            background: #1e1e2e;
+            color: #c9d1d9;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.3rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+            .header { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🎯 TEMA 07 - POO em Java</h1>
+        <p>Programação Orientada a Objetos | Conceitos Iniciais</p>
+        <div class="badge-group">
+            <span class="badge">📦 Classes</span>
+            <span class="badge">🔷 Objetos</span>
+            <span class="badge">🔒 Encapsulamento</span>
+            <span class="badge">📊 Abstração</span>
+        </div>
+    </div>
+
+    <!-- Navegação por abas -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="config">📋 CONFIGURAÇÃO</button>
+        <button class="tab-link" data-tab="conceitos">📖 CONCEITOS</button>
+        <button class="tab-link" data-tab="pilares">🏛️ PILARES</button>
+        <button class="tab-link" data-tab="classes">📦 CLASSES</button>
+        <button class="tab-link" data-tab="objetos">🔷 OBJETOS</button>
+        <button class="tab-link" data-tab="exemplos">💻 EXEMPLOS</button>
+        <button class="tab-link" data-tab="desafios">🏆 DESAFIOS</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 0: CONFIGURAÇÃO -->
+    <!-- ============================================================ -->
+    <div id="config" class="tab-content active">
+        <div class="card">
+            <h2>🚀 Configuração do Projeto no NetBeans</h2>
+
+            <div class="step">
+                <span class="step-number">1</span> <strong>File → New Project</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span> Escolha: <strong>Java with Ant</strong> → <strong>Java Application</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span> <strong>Project Name:</strong> <code>Tema07POO</code>
+            </div>
+            <div class="step">
+                <span class="step-number">4</span> Marque: <strong>✓ Create Main Class</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">5</span> <strong>Main Class:</strong> <code>tema07.Main</code>
+            </div>
+            <div class="step">
+                <span class="step-number">6</span> Clique em <strong>Finish</strong>
+            </div>
+
+            <div class="tree">
+                📁 Tema07POO<br>
+                &nbsp;&nbsp;└── 📁 Source Packages<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 tema07<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📄 Main.java
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> A Main.java pode ficar vazia ou ser usada para testar os exemplos. Vamos criar classes SEPARADAS para cada exemplo e desafio!
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📁 Como criar cada classe (exemplo ou desafio)</h2>
+            <div class="step">
+                <span class="step-number">1</span> Botão direito na pasta <strong>tema07</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span> <strong>New → Java Class</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span> Digite o nome da classe (ex: <code>Aluno</code> ou <code>ExemploAluno</code>)
+            </div>
+            <div class="step">
+                <span class="step-number">4</span> Cole o código da classe
+            </div>
+            <div class="step">
+                <span class="step-number">5</span> Para executar uma classe com <code>main</code>: botão direito → <strong>Run File</strong> (ou Shift + F6)
+            </div>
+            <div class="step">
+                <span class="step-number">6</span> Para usar uma classe em outra: certifique-se de que ambas estão no mesmo pacote <strong>tema07</strong>
+            </div>
+
+            <div class="highlight info">
+                📌 <strong>ORGANIZAÇÃO:</strong> Todas as classes devem estar no pacote <strong>tema07</strong> para serem acessíveis entre si!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 1: CONCEITOS -->
+    <!-- ============================================================ -->
+    <div id="conceitos" class="tab-content">
+        <div class="card">
+            <h2>📖 O que é Programação Orientada a Objetos?</h2>
+            <p><strong>POO</strong> é um paradigma de programação que se baseia na criação de <strong>objetos</strong> que combinam <strong>dados (atributos)</strong> e <strong>comportamentos (métodos)</strong>.</p>
+
+            <div class="highlight info">
+                🎯 <strong>ANALOGIA PARA ENTENDER:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>📦 Classe:</strong> É o <strong>molde</strong> (ex: projeto de um carro)</li>
+                    <li><strong>🔷 Objeto:</strong> É o <strong>carro real</strong> construído a partir do molde</li>
+                    <li><strong>📊 Atributos:</strong> São as <strong>características</strong> (cor, modelo, ano)</li>
+                    <li><strong>⚡ Métodos:</strong> São as <strong>ações</strong> (ligar, acelerar, frear)</li>
+                </ul>
+            </div>
+
+            <h3>🎯 Por que usar POO?</h3>
+            <ul style="margin-left: 30px; margin-bottom: 15px;">
+                <li>📦 <strong>Organização:</strong> Código mais limpo e estruturado</li>
+                <li>🔄 <strong>Reutilização:</strong> Classes podem ser reaproveitadas</li>
+                <li>🔒 <strong>Segurança:</strong> Dados protegidos (encapsulamento)</li>
+                <li>📈 <strong>Escalabilidade:</strong> Facilita a manutenção e evolução</li>
+            </ul>
+
+            <h3>📊 Exemplo do Mundo Real</h3>
+            <div class="pilar-box">
+                <strong>🏍️ Motocicleta:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>ATRIBUTOS (TEM):</strong> modelo, marca, cor, placa, chassi</li>
+                    <li><strong>MÉTODOS (FAZ):</strong> licenciar, checarChassi, ligar</li>
+                    <li><strong>ESTADO (COMO ESTÁ):</strong> nova, usada, quebrada</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: PILARES -->
+    <!-- ============================================================ -->
+    <div id="pilares" class="tab-content">
+        <div class="card">
+            <h2>🏛️ Os 4 Pilares da POO</h2>
+
+            <div class="pilar-box">
+                <strong>📊 1. Abstração</strong>
+                <p>Usar <strong>coisas simples</strong> para representar a complexidade.</p>
+                <p>Exemplo: Você sabe ligar a TV, mas não precisa saber como funciona internamente.</p>
+                <p>Em Java: <code>classes</code>, <code>objetos</code> e <code>variáveis</code> representam códigos complexos.</p>
+            </div>
+
+            <div class="pilar-box">
+                <strong>🔒 2. Encapsulamento</strong>
+                <p>Manter os <strong>dados privados</strong> e fornecer acesso por <strong>métodos públicos</strong>.</p>
+                <p>Exemplo: Os dados de um banco são privados, mas você pode acessá-los com senha.</p>
+                <p>Em Java: <code>private</code> para atributos e <code>public</code> para métodos.</p>
+            </div>
+
+            <div class="pilar-box">
+                <strong>📦 3. Herança</strong>
+                <p>Criar <strong>novas classes</strong> que compartilham atributos de classes existentes.</p>
+                <p>Exemplo: <code>Carro</code> herda de <code>Veiculo</code> (tem rodas, motor, etc.)</p>
+                <p>Em Java: usa-se <code>extends</code> para herdar.</p>
+            </div>
+
+            <div class="pilar-box">
+                <strong>🔄 4. Polimorfismo</strong>
+                <p>Usar a <strong>mesma palavra</strong> para significar coisas diferentes em contextos diferentes.</p>
+                <p>Exemplo: O método <code>falar()</code> pode ser de <code>Cachorro</code> ou <code>Gato</code>.</p>
+                <p>Em Java: <strong>sobrecarga</strong> e <strong>sobrescrita</strong> de métodos.</p>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>Neste curso:</strong> Vamos focar nos conceitos de <strong>Abstração</strong> e <strong>Encapsulamento</strong>.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 3: CLASSES -->
+    <!-- ============================================================ -->
+    <div id="classes" class="tab-content">
+        <div class="card">
+            <h2>📦 Classes em Java</h2>
+            <p>Uma <strong>classe</strong> é o <strong>molde</strong> para criar objetos. Ela define os <strong>atributos</strong> e <strong>métodos</strong> que os objetos terão.</p>
+
+            <h3>📝 Sintaxe de uma Classe</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-classe')">📋 Copiar</button>
+                <pre id="code-classe"><code>package tema07;
+
+public class NomeDaClasse {
+    // ATRIBUTOS (características)
+    tipo nomeAtributo;
+
+    // MÉTODOS (comportamentos)
+    public void nomeMetodo() {
+        // código do método
+    }
+}</code></pre>
+            </div>
+
+            <h3>🏍️ Exemplo: Classe Motocicleta</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-moto')">📋 Copiar</button>
+                <pre id="code-moto"><code>package tema07;
+
+public class Motocicleta {
+    // ATRIBUTOS
+    String modelo;
+    String marca;
+    String cor;
+    int cilindradas;
+
+    // MÉTODOS
+    public void ligar() {
+        System.out.println("Moto ligada!");
+    }
+
+    public void desligar() {
+        System.out.println("Moto desligada!");
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight info">
+                📌 <strong>OBSERVAÇÃO:</strong> A classe é o <strong>molde</strong>. Ela NÃO ocupa espaço na memória até ser instanciada (criar um objeto).
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 4: OBJETOS -->
+    <!-- ============================================================ -->
+    <div id="objetos" class="tab-content">
+        <div class="card">
+            <h2>🔷 Objetos em Java</h2>
+            <p>Um <strong>objeto</strong> é uma <strong>instância</strong> de uma classe. Ele ocupa espaço na memória e tem valores reais para os atributos.</p>
+
+            <h3>📝 Como criar (instanciar) um objeto</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-instancia')">📋 Copiar</button>
+                <pre id="code-instancia"><code>// Declarar e instanciar um objeto
+NomeDaClasse nomeObjeto = new NomeDaClasse();
+
+// Exemplo com Motocicleta
+Motocicleta moto = new Motocicleta();</code></pre>
+            </div>
+
+            <h3>✏️ Como atribuir valores (atributos)</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-atribui')">📋 Copiar</button>
+                <pre id="code-atribui"><code>// Atribuindo valores
+moto.modelo = "CG 125";
+moto.marca = "Honda";
+moto.cor = "Vermelha";
+moto.cilindradas = 125;
+
+// Exibindo valores
+System.out.println("Modelo: " + moto.modelo);
+System.out.println("Marca: " + moto.marca);
+System.out.println("Cor: " + moto.cor);</code></pre>
+            </div>
+
+            <h3>⚡ Como chamar métodos</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-metodos')">📋 Copiar</button>
+                <pre id="code-metodos"><code>// Chamando métodos
+moto.ligar();    // "Moto ligada!"
+moto.desligar(); // "Moto desligada!"</code></pre>
+            </div>
+
+            <h3>📊 Objetos da classe Motocicleta</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Atributo</th><th>Moto do Carlos</th><th>Moto da Maria</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>modelo</td><td>NX 150</td><td>CG 125</td></tr>
+                    <tr><td>marca</td><td>Honda</td><td>Honda</td></tr>
+                    <tr><td>cor</td><td>Preta</td><td>Vermelha</td></tr>
+                    <tr><td>cilindradas</td><td>150</td><td>125</td></tr>
+                </tbody>
+            </table>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> Objetos da mesma classe têm os <strong>mesmos atributos</strong>, mas podem ter <strong>valores diferentes</strong>!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 5: EXEMPLOS -->
+    <!-- ============================================================ -->
+    <div id="exemplos" class="tab-content">
+        <div class="card">
+            <h2>💻 Exemplos Práticos</h2>
+
+            <!-- EXEMPLO 1 -->
+            <h3>📌 Exemplo 1: Classe Aluno (tudo no mesmo arquivo)</h3>
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Criar uma classe <code>Aluno</code> com atributos e métodos, e instanciar objetos no mesmo arquivo.
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-ex1')">📋 Copiar</button>
+                <pre id="code-ex1"><code>package tema07;
+
+public class ExemploAluno {
+    // Atributos
+    String nome;
+    int idade;
+    double nota;
+
+    // Método para exibir dados
+    public void exibirDados() {
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade);
+        System.out.println("Nota: " + nota);
+    }
+
+    public static void main(String[] args) {
+        // Criando objeto
+        ExemploAluno aluno1 = new ExemploAluno();
+
+        // Atribuindo valores
+        aluno1.nome = "João Silva";
+        aluno1.idade = 20;
+        aluno1.nota = 8.5;
+
+        // Chamando método
+        aluno1.exibirDados();
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Nome: João Silva<br>
+Idade: 20<br>
+Nota: 8.5
+            </div>
+
+            <!-- EXEMPLO 2 -->
+            <h3>📌 Exemplo 2: Classe ContaBancaria (Encapsulamento)</h3>
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Criar uma classe com <strong>encapsulamento</strong> (atributos privados e métodos públicos).
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-ex2')">📋 Copiar</button>
+                <pre id="code-ex2"><code>package tema07;
+
+public class ExemploConta {
+    // Atributos privados
+    private String titular;
+    private double saldo;
+
+    // Métodos públicos (getters e setters)
+    public String getTitular() {
+        return titular;
+    }
+
+    public void setTitular(String titular) {
+        this.titular = titular;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void depositar(double valor) {
+        if (valor > 0) {
+            saldo += valor;
+            System.out.println("Depósito de R$" + valor + " realizado!");
+        } else {
+            System.out.println("Valor inválido!");
+        }
+    }
+
+    public void sacar(double valor) {
+        if (valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            System.out.println("Saque de R$" + valor + " realizado!");
+        } else {
+            System.out.println("Saldo insuficiente ou valor inválido!");
+        }
+    }
+
+    public void exibirSaldo() {
+        System.out.println("Titular: " + titular);
+        System.out.println("Saldo: R$" + saldo);
+    }
+
+    public static void main(String[] args) {
+        ExemploConta conta = new ExemploConta();
+
+        conta.setTitular("Maria Santos");
+        conta.depositar(1000);
+        conta.sacar(300);
+        conta.exibirSaldo();
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Depósito de R$1000.0 realizado!<br>
+Saque de R$300.0 realizado!<br>
+Titular: Maria Santos<br>
+Saldo: R$700.0
+            </div>
+
+            <!-- EXEMPLO 3: CLASSE SEPARADA -->
+            <h3>📌 Exemplo 3: Classe Carro (Main + Classe em arquivos separados)</h3>
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Demonstrar o uso de <strong>classes separadas</strong> em arquivos diferentes:<br>
+                📄 <strong>Carro.java</strong> → define a classe (molde)<br>
+                📄 <strong>TesteCarro.java</strong> → contém o <code>main</code> e usa a classe Carro
+            </div>
+
+            <div class="highlight info">
+                📌 <strong>ESTRUTURA:</strong> Crie dois arquivos no pacote <strong>tema07</strong>:
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>📄 <code>Carro.java</code> → contém a definição da classe</li>
+                    <li>📄 <code>TesteCarro.java</code> → contém o método <code>main</code></li>
+                </ul>
+            </div>
+
+            <h4>📄 Carro.java (Classe)</h4>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-carro')">📋 Copiar</button>
+                <pre id="code-carro"><code>package tema07;
+
+public class Carro {
+    // Atributos
+    String modelo;
+    String cor;
+    int velocidade;
+
+    // Método para acelerar
+    public void acelerar() {
+        velocidade += 10;
+        System.out.println("Acelerando... Velocidade: " + velocidade + " km/h");
+    }
+
+    // Método para frear
+    public void frear() {
+        if (velocidade >= 5) {
+            velocidade -= 5;
+            System.out.println("Freando... Velocidade: " + velocidade + " km/h");
+        } else {
+            System.out.println("Carro já está parado!");
+        }
+    }
+
+    // Método para exibir status
+    public void exibirStatus() {
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Cor: " + cor);
+        System.out.println("Velocidade atual: " + velocidade + " km/h");
+    }
+}</code></pre>
+            </div>
+
+            <h4>📄 TesteCarro.java (Main)</h4>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-teste-carro')">📋 Copiar</button>
+                <pre id="code-teste-carro"><code>package tema07;
+
+public class TesteCarro {
+    public static void main(String[] args) {
+        // Criando um objeto da classe Carro
+        Carro meuCarro = new Carro();
+
+        // Atribuindo valores
+        meuCarro.modelo = "Fusca";
+        meuCarro.cor = "Azul";
+        meuCarro.velocidade = 0;
+
+        // Exibindo status inicial
+        System.out.println("=== STATUS INICIAL ===");
+        meuCarro.exibirStatus();
+
+        // Testando métodos
+        System.out.println("\n=== TESTANDO ACELERAÇÃO ===");
+        meuCarro.acelerar();
+        meuCarro.acelerar();
+        meuCarro.acelerar();
+
+        System.out.println("\n=== TESTANDO FRENAGEM ===");
+        meuCarro.frear();
+        meuCarro.frear();
+
+        System.out.println("\n=== STATUS FINAL ===");
+        meuCarro.exibirStatus();
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+=== STATUS INICIAL ===<br>
+Modelo: Fusca<br>
+Cor: Azul<br>
+Velocidade atual: 0 km/h<br>
+<br>
+=== TESTANDO ACELERAÇÃO ===<br>
+Acelerando... Velocidade: 10 km/h<br>
+Acelerando... Velocidade: 20 km/h<br>
+Acelerando... Velocidade: 30 km/h<br>
+<br>
+=== TESTANDO FRENAGEM ===<br>
+Freando... Velocidade: 25 km/h<br>
+Freando... Velocidade: 20 km/h<br>
+<br>
+=== STATUS FINAL ===<br>
+Modelo: Fusca<br>
+Cor: Azul<br>
+Velocidade atual: 20 km/h
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>IMPORTANTE:</strong> Para executar o Exemplo 3, execute apenas o arquivo <strong>TesteCarro.java</strong> (Run File).
+                O arquivo <strong>Carro.java</strong> não tem <code>main</code>, então não pode ser executado sozinho!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 6: DESAFIOS -->
+    <!-- ============================================================ -->
+    <div id="desafios" class="tab-content">
+        <div class="card">
+            <h2>🏆 Desafios Práticos</h2>
+
+            <div class="highlight info">
+                🎯 <strong>INSTRUÇÕES:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>Crie uma classe separada para cada desafio no pacote <strong>tema07</strong></li>
+                    <li>Use os conceitos de POO aprendidos</li>
+                    <li>📸 Tire print do código e do resultado de cada desafio</li>
+                </ul>
+            </div>
+
+            <!-- DESAFIO 1 -->
+            <h3 style="margin-top: 20px;">🧩 Desafio 1: Classe Livro</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioLivro.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma classe <strong>Livro</strong> com atributos: <code>titulo</code>, <code>autor</code>, <code>anoPublicacao</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um método <code>exibirInfo()</code> que exibe os dados do livro
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> No <code>main</code> da própria classe, crie um objeto e exiba suas informações
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Título: Java para Iniciantes<br>
+Autor: Maria Silva<br>
+Ano de Publicação: 2023
+            </div>
+
+            <!-- DESAFIO 2 -->
+            <h3 style="margin-top: 25px;">🧩 Desafio 2: Classe Produto (Encapsulamento)</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioProduto.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma classe <strong>Produto</strong> com atributos privados: <code>nome</code>, <code>preco</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie <strong>getters e setters</strong> para cada atributo
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um método <code>aplicarDesconto(double percentual)</code> que reduz o preço
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> No <code>main</code> da própria classe, teste a classe com um produto e aplique desconto
+            </div>
+
+            <!-- DESAFIO 3 -->
+            <h3 style="margin-top: 25px;">🧩 Desafio 3: Classe Carro (com Main separado)</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classes:</strong> <code>DesafioCarro.java</code> e <code>TesteDesafioCarro.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma classe <strong>DesafioCarro</strong> com atributos: <code>modelo</code>, <code>cor</code>, <code>velocidade</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie métodos: <code>acelerar()</code> (aumenta velocidade em 10) e <code>frear()</code> (diminui em 5)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um método <code>exibirStatus()</code> que mostra a velocidade atual
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma classe <strong>TesteDesafioCarro</strong> com <code>main</code> para testar
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Velocidade atual: 0 km/h<br>
+Acelerando... Velocidade: 10 km/h<br>
+Acelerando... Velocidade: 20 km/h<br>
+Freando... Velocidade: 15 km/h
+            </div>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div class="card">
+            <h2>✅ Checklist de Entrega</h2>
+
+            <div class="step">
+                <span class="step-number">📁</span> Criei as classes no pacote <strong>tema07</strong>:
+                <ul style="margin-left: 30px; margin-top: 8px;">
+                    <li><code>DesafioLivro.java</code></li>
+                    <li><code>DesafioProduto.java</code></li>
+                    <li><code>DesafioCarro.java</code></li>
+                    <li><code>TesteDesafioCarro.java</code></li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">📸</span> Tirei print do <strong>código</strong> de cada desafio
+            </div>
+
+            <div class="step">
+                <span class="step-number">📸</span> Tirei print do <strong>resultado</strong> (saída no console) de cada desafio
+            </div>
+
+            <div class="step">
+                <span class="step-number">📤</span> Salvei os arquivos no repositório <strong>java7</strong>
+            </div>
+
+            <div class="highlight success" style="margin-top: 15px;">
+                📤 <strong>Entregar:</strong> Prints do código e resultado de cada desafio + link do repositório <strong>java7</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>📚 TEMA 07 - POO | Conceitos Iniciais em Java</p>
+        <p>🎯 Classes | Objetos | Atributos | Métodos | Encapsulamento</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // Sistema de abas
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.getAttribute('data-tab');
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Função de copiar código
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>

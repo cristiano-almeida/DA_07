@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugestões de Resolução - POO | Desafios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #1a1a2e;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #f7971e;
+            color: #1a1a2e;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #f7971e;
+            margin-bottom: 15px;
+            border-left: 5px solid #f7971e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #b8860b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .card h4 {
+            color: #2c5364;
+            margin: 12px 0 8px 0;
+            font-size: 1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #f7971e;
+            font-size: 0.95rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #f7971e;
+            color: #1a1a2e;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 3px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #d4890a;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+            color: white;
+        }
+
+        .highlight {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .exemplo-saida {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .objetivo-box {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-left: 4px solid #f7971e;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 18px;
+            margin-top: 20px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .triade-box {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            border: 2px solid #f7971e;
+        }
+
+        .triade-box strong {
+            color: #b8860b;
+        }
+
+        .file-structure {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-family: monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+
+        .file-structure .folder {
+            color: #b8860b;
+        }
+
+        .file-structure .file {
+            color: #2a5298;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.3rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+            .header { padding: 25px; }
+            .footer { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🏆 Sugestões de Resolução</h1>
+        <p>Desafios - POO em Java | Classes e Objetos</p>
+        <div class="badge-group">
+            <span class="badge">📝 3 desafios</span>
+            <span class="badge">📋 Códigos prontos</span>
+            <span class="badge">📋 Copiar e colar</span>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="d1">🧩 DESAFIO 1</button>
+        <button class="tab-link" data-tab="d2">🧩 DESAFIO 2</button>
+        <button class="tab-link" data-tab="d3">🧩 DESAFIO 3</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 1: CLASSE LIVRO -->
+    <!-- ============================================================ -->
+    <div id="d1" class="tab-content active">
+        <div class="card">
+            <h2>🧩 Desafio 1: Classe Livro</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioLivro.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Atributos: <code>titulo</code>, <code>autor</code>, <code>anoPublicacao</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Método: <code>exibirInfo()</code> para exibir os dados
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> <code>main</code> na própria classe para criar e testar um objeto
+            </div>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> Classe é o molde, objeto é a instância.</li>
+                    <li><strong>OBJETIVO:</strong> Criar um livro com título, autor e ano, e exibir suas informações.</li>
+                    <li><strong>MÉTODO:</strong> Atributos públicos (default) e método <code>exibirInfo()</code>.</li>
+                </ul>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída esperada:<br>
+--- DADOS DO LIVRO ---<br>
+Título: Java para Iniciantes<br>
+Autor: Maria Silva<br>
+Ano de Publicação: 2023
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d1')">📋 Copiar</button>
+                <pre id="code-d1"><code>package tema07;
+
+public class DesafioLivro {
+    // ATRIBUTOS
+    String titulo;
+    String autor;
+    int anoPublicacao;
+
+    // MÉTODO PARA EXIBIR INFORMAÇÕES
+    public void exibirInfo() {
+        System.out.println("Título: " + titulo);
+        System.out.println("Autor: " + autor);
+        System.out.println("Ano de Publicação: " + anoPublicacao);
+    }
+
+    // MÉTODO MAIN PARA TESTE
+    public static void main(String[] args) {
+        // Criando um objeto da classe Livro
+        DesafioLivro livro = new DesafioLivro();
+
+        // Atribuindo valores
+        livro.titulo = "Java para Iniciantes";
+        livro.autor = "Maria Silva";
+        livro.anoPublicacao = 2023;
+
+        // Exibindo informações
+        System.out.println("--- DADOS DO LIVRO ---");
+        livro.exibirInfo();
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>O QUE FOI APRENDIDO:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>✅ Criar uma <strong>classe</strong> com atributos</li>
+                    <li>✅ Criar um <strong>método</strong> para exibir dados</li>
+                    <li>✅ <strong>Instanciar</strong> um objeto com <code>new</code></li>
+                    <li>✅ <strong>Atribuir valores</strong> aos atributos do objeto</li>
+                    <li>✅ <strong>Chamar métodos</strong> do objeto</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 2: CLASSE PRODUTO (ENCAPSULAMENTO) -->
+    <!-- ============================================================ -->
+    <div id="d2" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 2: Classe Produto (com encapsulamento)</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioProduto.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Atributos privados: <code>nome</code>, <code>preco</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Getters e Setters</strong> para cada atributo
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Método <code>aplicarDesconto(double percentual)</code> com validação (0-100%)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> <code>main</code> com testes de valores válidos e inválidos
+            </div>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> Encapsulamento protege os dados do produto.</li>
+                    <li><strong>OBJETIVO:</strong> Garantir que nome e preço sejam sempre válidos.</li>
+                    <li><strong>MÉTODO:</strong> Atributos <code>private</code> e setters com validação.</li>
+                </ul>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída esperada:<br>
+--- TESTE: Valores válidos ---<br>
+Produto: Notebook<br>
+Preço: R$ 2500.0<br>
+<br>
+--- APLICANDO DESCONTO ---<br>
+Desconto de 15% aplicado!<br>
+Novo preço: R$ 2125.0<br>
+<br>
+--- TESTE: Valores INVÁLIDOS ---<br>
+❌ Nome inválido!<br>
+❌ Preço inválido! Deve ser maior que zero.<br>
+❌ Desconto inválido! Use entre 0 e 100.
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d2')">📋 Copiar</button>
+                <pre id="code-d2"><code>package tema07;
+
+public class DesafioProduto {
+    // ATRIBUTOS PRIVADOS
+    private String nome;
+    private double preco;
+
+    // ========== GETTERS ==========
+    public String getNome() {
+        return nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    // ========== SETTERS (com validação) ==========
+    public void setNome(String nome) {
+        if (nome != null && !nome.trim().isEmpty()) {
+            this.nome = nome;
+        } else {
+            System.out.println("❌ Nome inválido!");
+        }
+    }
+
+    public void setPreco(double preco) {
+        if (preco > 0) {
+            this.preco = preco;
+        } else {
+            System.out.println("❌ Preço inválido! Deve ser maior que zero.");
+        }
+    }
+
+    // ========== MÉTODOS ==========
+    public void aplicarDesconto(double percentual) {
+        if (percentual >= 0 && percentual <= 100) {
+            double desconto = preco * (percentual / 100);
+            preco -= desconto;
+            System.out.println("Desconto de " + percentual + "% aplicado!");
+            System.out.println("Novo preço: R$ " + preco);
+        } else {
+            System.out.println("❌ Desconto inválido! Use entre 0 e 100.");
+        }
+    }
+
+    public void exibirInfo() {
+        System.out.println("Produto: " + nome);
+        System.out.println("Preço: R$ " + preco);
+    }
+
+    // ========== MAIN PARA TESTE ==========
+    public static void main(String[] args) {
+        DesafioProduto produto = new DesafioProduto();
+
+        System.out.println("--- TESTE: Valores válidos ---");
+        produto.setNome("Notebook");
+        produto.setPreco(2500.0);
+        produto.exibirInfo();
+
+        System.out.println("\n--- APLICANDO DESCONTO ---");
+        produto.aplicarDesconto(15);
+
+        System.out.println("\n--- TESTE: Valores INVÁLIDOS ---");
+        produto.setNome("");          // ❌ Bloqueado!
+        produto.setPreco(-100);       // ❌ Bloqueado!
+        produto.aplicarDesconto(150); // ❌ Bloqueado!
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>O QUE FOI APRENDIDO:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>✅ Uso de <code>private</code> para proteger atributos</li>
+                    <li>✅ <strong>Getters</strong> para ler valores com segurança</li>
+                    <li>✅ <strong>Setters</strong> com validação para evitar dados inválidos</li>
+                    <li>✅ Método com validação (<code>aplicarDesconto</code>)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 3: CLASSE CARRO (COM MAIN SEPARADO) -->
+    <!-- ============================================================ -->
+    <div id="d3" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 3: Classe Carro (com Main separado)</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classes:</strong> <code>DesafioCarro.java</code> e <code>TesteDesafioCarro.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Atributos: <code>modelo</code>, <code>cor</code>, <code>velocidade</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Métodos: <code>acelerar()</code> (+10), <code>frear()</code> (-5), <code>exibirStatus()</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Main separado</strong> em <code>TesteDesafioCarro.java</code>
+            </div>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> Separar a definição da classe (molde) do programa principal (uso).</li>
+                    <li><strong>OBJETIVO:</strong> Demonstrar como organizar o código com classes separadas.</li>
+                    <li><strong>MÉTODO:</strong> Classe Carro em um arquivo, TesteCarro em outro (com <code>main</code>).</li>
+                </ul>
+            </div>
+
+            <div class="highlight info">
+                📌 <strong>ESTRUTURA:</strong> Crie dois arquivos no pacote <strong>tema07</strong>:
+                <div class="file-structure">
+                    📁 tema07/<br>
+                    &nbsp;&nbsp;📄 <span class="file">DesafioCarro.java</span> → definição da classe (sem main)<br>
+                    &nbsp;&nbsp;📄 <span class="file">TesteDesafioCarro.java</span> → programa principal (com main)
+                </div>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída esperada:<br>
+=== STATUS INICIAL ===<br>
+Modelo: Fusca<br>
+Cor: Azul<br>
+Velocidade atual: 0 km/h<br>
+<br>
+=== TESTANDO ACELERAÇÃO ===<br>
+Acelerando... Velocidade: 10 km/h<br>
+Acelerando... Velocidade: 20 km/h<br>
+Acelerando... Velocidade: 30 km/h<br>
+<br>
+=== TESTANDO FRENAGEM ===<br>
+Freando... Velocidade: 25 km/h<br>
+Freando... Velocidade: 20 km/h<br>
+<br>
+=== STATUS FINAL ===<br>
+Modelo: Fusca<br>
+Cor: Azul<br>
+Velocidade atual: 20 km/h
+            </div>
+
+            <h3 style="margin-top: 20px;">📄 DesafioCarro.java (Classe)</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-carro')">📋 Copiar</button>
+                <pre id="code-carro"><code>package tema07;
+
+public class DesafioCarro {
+    // ATRIBUTOS
+    String modelo;
+    String cor;
+    int velocidade;
+
+    // MÉTODO PARA ACELERAR
+    public void acelerar() {
+        velocidade += 10;
+        System.out.println("Acelerando... Velocidade: " + velocidade + " km/h");
+    }
+
+    // MÉTODO PARA FREAR
+    public void frear() {
+        if (velocidade >= 5) {
+            velocidade -= 5;
+            System.out.println("Freando... Velocidade: " + velocidade + " km/h");
+        } else {
+            System.out.println("Carro já está parado!");
+        }
+    }
+
+    // MÉTODO PARA EXIBIR STATUS
+    public void exibirStatus() {
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Cor: " + cor);
+        System.out.println("Velocidade atual: " + velocidade + " km/h");
+    }
+}</code></pre>
+            </div>
+
+            <h3 style="margin-top: 20px;">📄 TesteDesafioCarro.java (Main)</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-teste')">📋 Copiar</button>
+                <pre id="code-teste"><code>package tema07;
+
+public class TesteDesafioCarro {
+    public static void main(String[] args) {
+        // Criando um objeto da classe Carro
+        DesafioCarro meuCarro = new DesafioCarro();
+
+        // Atribuindo valores
+        meuCarro.modelo = "Fusca";
+        meuCarro.cor = "Azul";
+        meuCarro.velocidade = 0;
+
+        // Exibindo status inicial
+        System.out.println("=== STATUS INICIAL ===");
+        meuCarro.exibirStatus();
+
+        // Testando aceleração
+        System.out.println("\n=== TESTANDO ACELERAÇÃO ===");
+        meuCarro.acelerar();
+        meuCarro.acelerar();
+        meuCarro.acelerar();
+
+        // Testando frenagem
+        System.out.println("\n=== TESTANDO FRENAGEM ===");
+        meuCarro.frear();
+        meuCarro.frear();
+
+        // Exibindo status final
+        System.out.println("\n=== STATUS FINAL ===");
+        meuCarro.exibirStatus();
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>O QUE FOI APRENDIDO:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>✅ <strong>Organização</strong> do código com classes separadas</li>
+                    <li>✅ Classe <strong>sem <code>main</code></strong> (apenas definição)</li>
+                    <li>✅ Classe com <strong><code>main</code> separado</strong> para testar a classe</li>
+                    <li>✅ Como <strong>usar uma classe</strong> em outro arquivo (mesmo pacote)</li>
+                    <li>✅ Métodos que <strong>modificam</strong> o estado do objeto (<code>acelerar</code>, <code>frear</code>)</li>
+                </ul>
+            </div>
+
+            <div class="highlight warning">
+                ⚠️ <strong>ATENÇÃO:</strong> Para executar o Desafio 3, execute apenas o arquivo <strong>TesteDesafioCarro.java</strong> (Run File).
+                O arquivo <strong>DesafioCarro.java</strong> não tem <code>main</code>, então não pode ser executado sozinho!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHECKLIST E INSTRUÇÕES -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>📋 Instruções de Entrega</h2>
+
+        <div class="step">
+            <span class="step-number">📁</span> Crie cada classe no pacote <strong>tema07</strong> do projeto <strong>Tema07POO</strong>
+        </div>
+        <div class="step">
+            <span class="step-number">📁</span> Copie e cole o código sugerido para cada desafio
+        </div>
+        <div class="step">
+            <span class="step-number">▶️</span> Execute cada classe com <strong>Run File</strong> (Shift + F6)
+        </div>
+
+        <h3 style="margin-top: 20px;">✅ Checklist de Entrega</h3>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check1">
+            <label for="check1"><code>DesafioLivro.java</code> - Classe Livro</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check2">
+            <label for="check2"><code>DesafioProduto.java</code> - Classe Produto (encapsulamento)</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check3">
+            <label for="check3"><code>DesafioCarro.java</code> - Classe Carro</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check4">
+            <label for="check4"><code>TesteDesafioCarro.java</code> - Main do Carro</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check5">
+            <label for="check5">📸 Tirei print do <strong>código</strong> de cada desafio</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check6">
+            <label for="check6">📸 Tirei print do <strong>resultado</strong> (saída no console) de cada desafio</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check7">
+            <label for="check7">📤 Salvei os arquivos no repositório <strong>java7</strong></label>
+        </div>
+
+        <div class="highlight success" style="margin-top: 15px;">
+            📤 <strong>Entregar:</strong> Prints do código e resultado de cada desafio + link do repositório <strong>java7</strong>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER COM FORMULÁRIO -->
+    <!-- ============================================================ -->
+    <div class="footer">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Prints do <strong>código</strong> e <strong>resultado</strong> de cada desafio + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java7</code></span>
+        </div>
+
+        <hr>
+
+        <p style="color: #1a1a2e;">📚 TEMA 07 - POO | Desafios de Classes e Objetos</p>
+        <p style="color: #1a1a2e;">🎯 Pratique cada desafio e consulte as resoluções para fixar o aprendizado!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // Sistema de abas
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.getAttribute('data-tab');
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Função de copiar código
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>

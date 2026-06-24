@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugestões de Resolução - POO | Desafios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #1a1a2e;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #f7971e;
+            color: #1a1a2e;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #f7971e;
+            margin-bottom: 15px;
+            border-left: 5px solid #f7971e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #b8860b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .card h4 {
+            color: #2c5364;
+            margin: 12px 0 8px 0;
+            font-size: 1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #f7971e;
+            font-size: 0.95rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #f7971e;
+            color: #1a1a2e;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 3px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #d4890a;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+            color: white;
+        }
+
+        .highlight {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .exemplo-saida {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .objetivo-box {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-left: 4px solid #f7971e;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 18px;
+            margin-top: 20px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .triade-box {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            border: 2px solid #f7971e;
+        }
+
+        .triade-box strong {
+            color: #b8860b;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.3rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+            .header { padding: 25px; }
+            .footer { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🏆 Sugestões de Resolução</h1>
+        <p>Desafios - POO em Java | Encapsulamento</p>
+        <div class="badge-group">
+            <span class="badge">📝 2 desafios</span>
+            <span class="badge">📋 Códigos prontos</span>
+            <span class="badge">📋 Copiar e colar</span>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="d1">🧩 DESAFIO 1</button>
+        <button class="tab-link" data-tab="d2">🧩 DESAFIO 2</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 1: CLASSE PRODUTO -->
+    <!-- ============================================================ -->
+    <div id="d1" class="tab-content active">
+        <div class="card">
+            <h2>🧩 Desafio 1: Classe Produto (com encapsulamento)</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioProduto.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Atributos privados: <code>nome</code>, <code>preco</code>, <code>quantidade</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Getters e Setters</strong> para cada atributo
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Método <code>aplicarDesconto(double percentual)</code> com validação (0-100%)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Método <code>exibirInfo()</code> para mostrar todos os dados
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> <code>main</code> com testes de valores válidos e inválidos
+            </div>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> Encapsulamento protege os dados do produto.</li>
+                    <li><strong>OBJETIVO:</strong> Garantir que nome, preço e quantidade sejam sempre válidos.</li>
+                    <li><strong>MÉTODO:</strong> Atributos <code>private</code> e setters com validação.</li>
+                </ul>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída esperada:<br>
+--- TESTE: Valores válidos ---<br>
+Produto: Notebook<br>
+Preço: R$ 3500.0<br>
+Quantidade: 10<br>
+<br>
+--- APLICANDO DESCONTO ---<br>
+Desconto de 10% aplicado!<br>
+Novo preço: R$ 3150.0<br>
+<br>
+--- TESTE: Valores INVÁLIDOS ---<br>
+❌ Preço inválido! Deve ser maior que zero.<br>
+❌ Quantidade inválida! Deve ser maior que zero.<br>
+❌ Desconto inválido! Use entre 0 e 100.
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d1')">📋 Copiar</button>
+                <pre id="code-d1"><code>package tema07;
+
+public class DesafioProduto {
+    // ATRIBUTOS PRIVADOS
+    private String nome;
+    private double preco;
+    private int quantidade;
+
+    // ========== GETTERS ==========
+    public String getNome() {
+        return nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    // ========== SETTERS (com validação) ==========
+    public void setNome(String nome) {
+        if (nome != null && !nome.trim().isEmpty()) {
+            this.nome = nome;
+        } else {
+            System.out.println("❌ Nome inválido!");
+        }
+    }
+
+    public void setPreco(double preco) {
+        if (preco > 0) {
+            this.preco = preco;
+        } else {
+            System.out.println("❌ Preço inválido! Deve ser maior que zero.");
+        }
+    }
+
+    public void setQuantidade(int quantidade) {
+        if (quantidade >= 0) {
+            this.quantidade = quantidade;
+        } else {
+            System.out.println("❌ Quantidade inválida! Deve ser maior que zero.");
+        }
+    }
+
+    // ========== MÉTODOS ==========
+    public void aplicarDesconto(double percentual) {
+        if (percentual >= 0 && percentual <= 100) {
+            double desconto = preco * (percentual / 100);
+            preco -= desconto;
+            System.out.println("Desconto de " + percentual + "% aplicado!");
+            System.out.println("Novo preço: R$ " + preco);
+        } else {
+            System.out.println("❌ Desconto inválido! Use entre 0 e 100.");
+        }
+    }
+
+    public void exibirInfo() {
+        System.out.println("Produto: " + nome);
+        System.out.println("Preço: R$ " + preco);
+        System.out.println("Quantidade: " + quantidade);
+    }
+
+    // ========== MAIN PARA TESTE ==========
+    public static void main(String[] args) {
+        DesafioProduto produto = new DesafioProduto();
+
+        System.out.println("--- TESTE: Valores válidos ---");
+        produto.setNome("Notebook");
+        produto.setPreco(3500.0);
+        produto.setQuantidade(10);
+        produto.exibirInfo();
+
+        System.out.println("\n--- APLICANDO DESCONTO ---");
+        produto.aplicarDesconto(10);
+
+        System.out.println("\n--- TESTE: Valores INVÁLIDOS ---");
+        produto.setPreco(-100);      // ❌ Bloqueado!
+        produto.setQuantidade(-5);   // ❌ Bloqueado!
+        produto.aplicarDesconto(150); // ❌ Bloqueado!
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>O QUE FOI APRENDIDO:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>✅ Uso de <code>private</code> para proteger atributos</li>
+                    <li>✅ <strong>Getters</strong> para ler valores com segurança</li>
+                    <li>✅ <strong>Setters</strong> com validação para evitar dados inválidos</li>
+                    <li>✅ Método com validação (<code>aplicarDesconto</code>)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 2: CLASSE CONTABANCARIA -->
+    <!-- ============================================================ -->
+    <div id="d2" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 2: Classe ContaBancaria</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioConta.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Atributos privados: <code>titular</code>, <code>numero</code>, <code>saldo</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Getters</strong> para todos, <strong>setters</strong> apenas para titular e número
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Métodos: <code>depositar(double valor)</code> e <code>sacar(double valor)</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Método <code>exibirSaldo()</code> para mostrar os dados
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> <code>main</code> com testes de depósitos, saques e validações
+            </div>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> Encapsulamento protege o saldo da conta.</li>
+                    <li><strong>OBJETIVO:</strong> Garantir que apenas operações válidas (depósito/saque) alterem o saldo.</li>
+                    <li><strong>MÉTODO:</strong> Atributo <code>saldo</code> privado, modificado apenas por métodos <code>depositar</code> e <code>sacar</code>.</li>
+                </ul>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída esperada:<br>
+--- TESTE: Operações válidas ---<br>
+Titular: Maria Santos<br>
+Número: 12345<br>
+Saldo: R$ 0.0<br>
+<br>
+Depósito de R$ 1000.0 realizado!<br>
+Saldo atual: R$ 1000.0<br>
+<br>
+Saque de R$ 300.0 realizado!<br>
+Saldo atual: R$ 700.0<br>
+<br>
+--- TESTE: Operações INVÁLIDAS ---<br>
+❌ Valor de depósito inválido!<br>
+❌ Saldo insuficiente!<br>
+Saldo atual: R$ 700.0
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d2')">📋 Copiar</button>
+                <pre id="code-d2"><code>package tema07;
+
+public class DesafioConta {
+    // ATRIBUTOS PRIVADOS
+    private String titular;
+    private int numero;
+    private double saldo;
+
+    // ========== GETTERS ==========
+    public String getTitular() {
+        return titular;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    // ========== SETTERS (apenas para titular e número) ==========
+    public void setTitular(String titular) {
+        if (titular != null && !titular.trim().isEmpty()) {
+            this.titular = titular;
+        } else {
+            System.out.println("❌ Titular inválido!");
+        }
+    }
+
+    public void setNumero(int numero) {
+        if (numero > 0) {
+            this.numero = numero;
+        } else {
+            System.out.println("❌ Número da conta inválido!");
+        }
+    }
+
+    // ========== MÉTODOS ==========
+    public void depositar(double valor) {
+        if (valor > 0) {
+            saldo += valor;
+            System.out.println("Depósito de R$ " + valor + " realizado!");
+            System.out.println("Saldo atual: R$ " + saldo);
+        } else {
+            System.out.println("❌ Valor de depósito inválido!");
+        }
+    }
+
+    public void sacar(double valor) {
+        if (valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            System.out.println("Saque de R$ " + valor + " realizado!");
+            System.out.println("Saldo atual: R$ " + saldo);
+        } else if (valor <= 0) {
+            System.out.println("❌ Valor de saque inválido!");
+        } else {
+            System.out.println("❌ Saldo insuficiente!");
+        }
+    }
+
+    public void exibirSaldo() {
+        System.out.println("Titular: " + titular);
+        System.out.println("Número: " + numero);
+        System.out.println("Saldo: R$ " + saldo);
+    }
+
+    // ========== MAIN PARA TESTE ==========
+    public static void main(String[] args) {
+        DesafioConta conta = new DesafioConta();
+
+        System.out.println("--- TESTE: Operações válidas ---");
+        conta.setTitular("Maria Santos");
+        conta.setNumero(12345);
+        conta.exibirSaldo();
+
+        System.out.println("\n--- DEPOSITANDO ---");
+        conta.depositar(1000);
+
+        System.out.println("\n--- SACANDO ---");
+        conta.sacar(300);
+
+        System.out.println("\n--- TESTE: Operações INVÁLIDAS ---");
+        conta.depositar(-50);      // ❌ Bloqueado!
+        conta.sacar(1000);         // ❌ Saldo insuficiente!
+        conta.exibirSaldo();
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>O QUE FOI APRENDIDO:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>✅ <strong>Saldo privado</strong> - só pode ser alterado por métodos</li>
+                    <li>✅ <strong>Validação</strong> de depósitos (valor > 0)</li>
+                    <li>✅ <strong>Validação</strong> de saques (saldo suficiente)</li>
+                    <li>✅ <strong>Setter</strong> apenas para dados que podem ser alterados (titular, número)</li>
+                    <li>✅ <strong>Getter</strong> para ler saldo, sem permitir alteração direta</li>
+                </ul>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA IMPORTANTE:</strong> O atributo <code>saldo</code> NÃO tem setter! Isso garante que <strong>NINGUÉM</strong> possa definir o saldo diretamente. A única forma de alterar o saldo é através dos métodos <code>depositar</code> e <code>sacar</code>.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHECKLIST E INSTRUÇÕES -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>📋 Instruções de Entrega</h2>
+
+        <div class="step">
+            <span class="step-number">📁</span> Crie cada classe no pacote <strong>tema07</strong> do projeto <strong>Tema07POO</strong>
+        </div>
+        <div class="step">
+            <span class="step-number">📁</span> Copie e cole o código sugerido para cada desafio
+        </div>
+        <div class="step">
+            <span class="step-number">▶️</span> Execute cada classe com <strong>Run File</strong> (Shift + F6)
+        </div>
+
+        <h3 style="margin-top: 20px;">✅ Checklist de Entrega</h3>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check1">
+            <label for="check1"><code>DesafioProduto.java</code> - Classe Produto com encapsulamento</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check2">
+            <label for="check2"><code>DesafioConta.java</code> - Classe ContaBancaria</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check3">
+            <label for="check3">📸 Tirei print do <strong>código</strong> de cada desafio</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check4">
+            <label for="check4">📸 Tirei print do <strong>resultado</strong> (saída no console) de cada desafio</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check5">
+            <label for="check5">📤 Salvei os arquivos no repositório <strong>java7</strong></label>
+        </div>
+
+        <div class="highlight success" style="margin-top: 15px;">
+            📤 <strong>Entregar:</strong> Prints do código e resultado de cada desafio + link do repositório <strong>java7</strong>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER COM FORMULÁRIO -->
+    <!-- ============================================================ -->
+    <div class="footer">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Prints do <strong>código</strong> e <strong>resultado</strong> de cada desafio + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java7</code></span>
+        </div>
+
+        <hr>
+
+        <p style="color: #1a1a2e;">📚 TEMA 07 - POO | Desafios de Encapsulamento</p>
+        <p style="color: #1a1a2e;">🎯 Pratique cada desafio e consulte as resoluções para fixar o aprendizado!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // Sistema de abas
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.getAttribute('data-tab');
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Função de copiar código
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>

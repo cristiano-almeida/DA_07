@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMA 07 - POO | Conceitos Iniciais em Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #1a1a2e;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #f7971e;
+            color: #1a1a2e;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #f7971e;
+            margin-bottom: 15px;
+            border-left: 5px solid #f7971e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #b8860b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .card h4 {
+            color: #2c5364;
+            margin: 12px 0 8px 0;
+            font-size: 1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #f7971e;
+            font-size: 0.95rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #f7971e;
+            color: #1a1a2e;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 3px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #d4890a;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+            color: white;
+        }
+
+        .highlight {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #f7971e;
+            color: #1a1a2e;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f7971e;
+            color: #1a1a2e;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 0 0 18px 18px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tree {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .exemplo-saida {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .objetivo-box {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-left: 4px solid #f7971e;
+        }
+
+        .triade-box {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #f7971e;
+        }
+
+        .triade-box strong {
+            color: #b8860b;
+        }
+
+        .modifier-box {
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin: 8px 0;
+            font-family: monospace;
+            font-size: 13px;
+            border-left: 4px solid #f7971e;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.3rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+            .header { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🎯 TEMA 07 - POO em Java</h1>
+        <p>Programação Orientada a Objetos | Conceitos Iniciais</p>
+        <div class="badge-group">
+            <span class="badge">📦 Classes</span>
+            <span class="badge">🔷 Objetos</span>
+            <span class="badge">🔒 Encapsulamento</span>
+            <span class="badge">📊 Abstração</span>
+        </div>
+    </div>
+
+    <!-- Navegação por abas -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="config">📋 CONFIGURAÇÃO</button>
+        <button class="tab-link" data-tab="conceitos">📖 CONCEITOS</button>
+        <button class="tab-link" data-tab="modificadores">🔒 MODIFICADORES</button>
+        <button class="tab-link" data-tab="exemplo1">📌 EXEMPLO 1</button>
+        <button class="tab-link" data-tab="exemplo2">📌 EXEMPLO 2</button>
+        <button class="tab-link" data-tab="comparacao">⚖️ COMPARAÇÃO</button>
+        <button class="tab-link" data-tab="desafios">🏆 DESAFIOS</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 0: CONFIGURAÇÃO -->
+    <!-- ============================================================ -->
+    <div id="config" class="tab-content active">
+        <div class="card">
+            <h2>🚀 Configuração do Projeto no NetBeans</h2>
+
+            <div class="step">
+                <span class="step-number">1</span> <strong>File → New Project</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span> Escolha: <strong>Java with Ant</strong> → <strong>Java Application</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span> <strong>Project Name:</strong> <code>Tema07POO</code>
+            </div>
+            <div class="step">
+                <span class="step-number">4</span> Marque: <strong>✓ Create Main Class</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">5</span> <strong>Main Class:</strong> <code>tema07.Main</code>
+            </div>
+            <div class="step">
+                <span class="step-number">6</span> Clique em <strong>Finish</strong>
+            </div>
+
+            <div class="tree">
+                📁 Tema07POO<br>
+                &nbsp;&nbsp;└── 📁 Source Packages<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 tema07<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📄 Main.java
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> A Main.java pode ficar vazia. Vamos criar classes SEPARADAS para cada exemplo!
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📁 Como criar as classes dos exemplos</h2>
+            <div class="step">
+                <span class="step-number">1</span> Botão direito na pasta <strong>tema07</strong> → <strong>New → Java Class</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span> Digite o nome da classe (ex: <code>Exemplo1Aluno</code>)
+            </div>
+            <div class="step">
+                <span class="step-number">3</span> Cole o código do exemplo
+            </div>
+            <div class="step">
+                <span class="step-number">4</span> Execute: botão direito → <strong>Run File</strong> (ou Shift + F6)
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 1: CONCEITOS -->
+    <!-- ============================================================ -->
+    <div id="conceitos" class="tab-content">
+        <div class="card">
+            <h2>📖 Conceitos Fundamentais de POO</h2>
+
+            <div class="highlight info">
+                🎯 <strong>O que é POO?</strong>
+                <p>A Programação Orientada a Objetos é um paradigma que organiza o código em <strong>objetos</strong> que contêm <strong>dados (atributos)</strong> e <strong>comportamentos (métodos)</strong>.</p>
+            </div>
+
+            <h3>📦 Classe x Objeto</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Conceito</th><th>Definição</th><th>Analogia</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Classe</strong></td>
+                        <td>Molde que define atributos e métodos</td>
+                        <td>Planta de uma casa</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Objeto</strong></td>
+                        <td>Instância da classe (ocupam memória)</td>
+                        <td>A casa construída</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Atributo</strong></td>
+                        <td>Características do objeto</td>
+                        <td>Cor, tamanho, quantidade de quartos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Método</strong></td>
+                        <td>Ações que o objeto pode realizar</td>
+                        <td>Abrir porta, ligar luz</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> O que é? (definição)</li>
+                    <li><strong>OBJETIVO:</strong> Para que serve? (utilidade)</li>
+                    <li><strong>MÉTODO:</strong> Como se faz? (implementação)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: MODIFICADORES DE ACESSO -->
+    <!-- ============================================================ -->
+    <div id="modificadores" class="tab-content">
+        <div class="card">
+            <h2>🔒 Modificadores de Acesso em Java</h2>
+            <p>Os modificadores de acesso controlam <strong>quem pode ver</strong> e <strong>quem pode usar</strong> atributos e métodos.</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Modificador</th><th>O que significa</th><th>Onde pode ser acessado</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>(nenhum)</strong><br><span style="font-size:0.8rem;color:#666;">default/package-private</span></td>
+                        <td>Acessível dentro do mesmo pacote</td>
+                        <td>📁 Somente classes no mesmo pacote</td>
+                    </tr>
+                    <tr>
+                        <td><strong>public</strong></td>
+                        <td>Público - acessível de qualquer lugar</td>
+                        <td>🌍 Qualquer classe, qualquer pacote</td>
+                    </tr>
+                    <tr>
+                        <td><strong>private</strong></td>
+                        <td>Privado - acessível apenas dentro da classe</td>
+                        <td>🔒 Somente dentro da própria classe</td>
+                    </tr>
+                    <tr>
+                        <td><strong>protected</strong></td>
+                        <td>Protegido - acessível no pacote e subclasses</td>
+                        <td>📁 Pacote + herança</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight warning">
+                ⚠️ <strong>IMPORTANTE:</strong> Quando você <strong>NÃO</strong> coloca modificador (default), o atributo/método é acessível apenas dentro do <strong>mesmo pacote</strong>!
+            </div>
+
+            <h3>🎯 Exemplo prático dos modificadores</h3>
+            <div class="modifier-box">
+                <strong>CONCEITO:</strong> Modificadores de acesso controlam a visibilidade.<br>
+                <strong>OBJETIVO:</strong> Proteger dados e organizar o código.<br>
+                <strong>MÉTODO:</strong> Usar <code>private</code> para atributos e <code>public</code> para métodos de acesso (getters/setters).
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-modifiers')">📋 Copiar</button>
+                <pre id="code-modifiers"><code>package tema07;
+
+public class ExemploModificadores {
+    // 1. SEM MODIFICADOR (default) - acessível no pacote
+    String nomeDefault = "Acessível no pacote";
+
+    // 2. PUBLIC - acessível em qualquer lugar
+    public String nomePublic = "Acessível em qualquer lugar";
+
+    // 3. PRIVATE - acessível apenas dentro desta classe
+    private String nomePrivate = "Acessível apenas aqui";
+
+    public void exibir() {
+        // Todos os atributos são acessíveis DENTRO da classe
+        System.out.println(nomeDefault);
+        System.out.println(nomePublic);
+        System.out.println(nomePrivate);  // OK!
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>BOA PRÁTICA:</strong> Atributos geralmente são <code>private</code> (encapsulamento). Métodos de acesso são <code>public</code> (getters/setters).
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 3: EXEMPLO 1 - SEM ENCAPSULAMENTO -->
+    <!-- ============================================================ -->
+    <div id="exemplo1" class="tab-content">
+        <div class="card">
+            <h2>📌 Exemplo 1: Classe Aluno (sem encapsulamento)</h2>
+
+            <div class="triade-box">
+                <strong>📚 CONCEITO:</strong> Atributos públicos e método de exibição.<br>
+                <strong>🎯 OBJETIVO:</strong> Mostrar como é simples criar uma classe, mas os dados ficam expostos.<br>
+                <strong>⚡ MÉTODO:</strong> Atributos <code>public</code> ou sem modificador (default).
+            </div>
+
+            <div class="objetivo-box">
+                <strong>🔍 OBSERVAÇÃO:</strong> Neste exemplo, os atributos estão <strong>sem modificador (default)</strong> ou <strong>públicos</strong>. Isso permite acesso direto de qualquer lugar no mesmo pacote.
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-ex1')">📋 Copiar</button>
+                <pre id="code-ex1"><code>package tema07;
+
+public class Exemplo1Aluno {
+    // ATRIBUTOS SEM MODIFICADOR (default) - acessíveis no pacote
+    String nome;
+    int idade;
+    double nota;
+
+    // MÉTODO - exibe os dados
+    public void exibirDados() {
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade);
+        System.out.println("Nota: " + nota);
+    }
+
+    // MÉTODO MAIN para teste
+    public static void main(String[] args) {
+        // Criando objeto
+        Exemplo1Aluno aluno = new Exemplo1Aluno();
+
+        // ACESSO DIRETO aos atributos (permitido porque estão no mesmo pacote)
+        aluno.nome = "João Silva";
+        aluno.idade = 20;
+        aluno.nota = 8.5;
+
+        // Exibindo
+        aluno.exibirDados();
+
+        // ⚠️ TESTE: Alterando diretamente sem validação
+        System.out.println("\n--- TESTE: Alterando nota diretamente ---");
+        aluno.nota = -10;  // PERMITIDO, mas não faz sentido!
+        aluno.exibirDados();
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Nome: João Silva<br>
+Idade: 20<br>
+Nota: 8.5<br>
+<br>
+--- TESTE: Alterando nota diretamente ---<br>
+Nome: João Silva<br>
+Idade: 20<br>
+Nota: -10.0
+            </div>
+
+            <div class="highlight warning">
+                ⚠️ <strong>PROBLEMA:</strong> Como os atributos são acessíveis diretamente, qualquer um pode colocar valores <strong>inválidos</strong> (ex: nota negativa) sem nenhum controle!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 4: EXEMPLO 2 - COM ENCAPSULAMENTO -->
+    <!-- ============================================================ -->
+    <div id="exemplo2" class="tab-content">
+        <div class="card">
+            <h2>📌 Exemplo 2: Classe Aluno (com encapsulamento)</h2>
+
+            <div class="triade-box">
+                <strong>📚 CONCEITO:</strong> Atributos privados e métodos públicos de acesso (getters/setters).<br>
+                <strong>🎯 OBJETIVO:</strong> Proteger os dados, permitindo apenas valores válidos.<br>
+                <strong>⚡ MÉTODO:</strong> Atributos <code>private</code>, getters/setters <code>public</code> com validações.
+            </div>
+
+            <div class="objetivo-box">
+                <strong>🔍 OBSERVAÇÃO:</strong> Neste exemplo, os atributos são <strong>PRIVADOS</strong>. O acesso é feito apenas por métodos públicos que <strong>validam</strong> os valores antes de atribuir.
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-ex2')">📋 Copiar</button>
+                <pre id="code-ex2"><code>package tema07;
+
+public class Exemplo2Aluno {
+    // ATRIBUTOS PRIVADOS - NINGUÉM acessa diretamente!
+    private String nome;
+    private int idade;
+    private double nota;
+
+    // GETTERS - para LER os valores
+    public String getNome() {
+        return nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public double getNota() {
+        return nota;
+    }
+
+    // SETTERS - para DEFINIR os valores (com validação!)
+    public void setNome(String nome) {
+        if (nome != null && !nome.trim().isEmpty()) {
+            this.nome = nome;
+        } else {
+            System.out.println("❌ Nome inválido!");
+        }
+    }
+
+    public void setIdade(int idade) {
+        if (idade >= 0 && idade <= 150) {
+            this.idade = idade;
+        } else {
+            System.out.println("❌ Idade inválida! (0-150)");
+        }
+    }
+
+    public void setNota(double nota) {
+        if (nota >= 0 && nota <= 10) {
+            this.nota = nota;
+        } else {
+            System.out.println("❌ Nota inválida! (0-10)");
+        }
+    }
+
+    // MÉTODO para exibir os dados
+    public void exibirDados() {
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade);
+        System.out.println("Nota: " + nota);
+    }
+
+    // MÉTODO MAIN para teste
+    public static void main(String[] args) {
+        Exemplo2Aluno aluno = new Exemplo2Aluno();
+
+        // Usando SETTERS - valores válidos
+        System.out.println("--- TESTE 1: Valores válidos ---");
+        aluno.setNome("Maria Santos");
+        aluno.setIdade(22);
+        aluno.setNota(9.5);
+        aluno.exibirDados();
+
+        // Usando SETTERS - valores INVÁLIDOS (serão bloqueados!)
+        System.out.println("\n--- TESTE 2: Valores INVÁLIDOS ---");
+        aluno.setNota(-5);   // ❌ Bloqueado!
+        aluno.setIdade(200); // ❌ Bloqueado!
+        aluno.setNome("");   // ❌ Bloqueado!
+
+        System.out.println("\n--- Dados permanecem intactos ---");
+        aluno.exibirDados();
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+--- TESTE 1: Valores válidos ---<br>
+Nome: Maria Santos<br>
+Idade: 22<br>
+Nota: 9.5<br>
+<br>
+--- TESTE 2: Valores INVÁLIDOS ---<br>
+❌ Nota inválida! (0-10)<br>
+❌ Idade inválida! (0-150)<br>
+❌ Nome inválido!<br>
+<br>
+--- Dados permanecem intactos ---<br>
+Nome: Maria Santos<br>
+Idade: 22<br>
+Nota: 9.5
+            </div>
+
+            <div class="highlight success">
+                ✅ <strong>VANTAGEM:</strong> O encapsulamento protege os dados! Valores inválidos são <strong>bloqueados</strong> antes de serem atribuídos.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 5: COMPARAÇÃO ENTRE EXEMPLOS -->
+    <!-- ============================================================ -->
+    <div id="comparacao" class="tab-content">
+        <div class="card">
+            <h2>⚖️ Comparação: Exemplo 1 vs Exemplo 2</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Característica</th><th>Exemplo 1 (sem encapsulamento)</th><th>Exemplo 2 (com encapsulamento)</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Modificador dos atributos</strong></td>
+                        <td><code>default</code> (sem modificador)</td>
+                        <td><code>private</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Acesso aos atributos</strong></td>
+                        <td>Direto: <code>aluno.nota = -10;</code></td>
+                        <td>Via setter: <code>aluno.setNota(-10);</code> (bloqueia)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Validação de dados</strong></td>
+                        <td>❌ Nenhuma validação</td>
+                        <td>✅ Validação nos setters</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Segurança dos dados</strong></td>
+                        <td>❌ Dados expostos e vulneráveis</td>
+                        <td>✅ Dados protegidos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Controle de valores</strong></td>
+                        <td>❌ Qualquer valor é aceito</td>
+                        <td>✅ Apenas valores válidos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Facilidade de manutenção</strong></td>
+                        <td>❌ Difícil (dados espalhados)</td>
+                        <td>✅ Fácil (centralizado nos setters)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexidade</strong></td>
+                        <td>✅ Simples</td>
+                        <td>⚠️ Um pouco mais de código</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight tip">
+                💡 <strong>CONCLUSÃO:</strong> O encapsulamento <strong>vale o esforço</strong> extra! Ele protege seus dados e torna o código mais seguro e confiável.
+            </div>
+
+            <h3>🎯 Testes Didáticos para Fazer</h3>
+
+            <div class="step">
+                <span class="step-number">🧪</span> <strong>Teste 1:</strong> No Exemplo 1, tente colocar <code>aluno.idade = -5;</code>. O que acontece?
+                <div style="background:#f8f9fa; padding:8px; margin-top:5px; border-radius:6px;">
+                    <strong>Resposta:</strong> O código compila e executa, mas a idade fica negativa (inválida!).
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">🧪</span> <strong>Teste 2:</strong> No Exemplo 2, tente colocar <code>aluno.setIdade(-5);</code>. O que acontece?
+                <div style="background:#f8f9fa; padding:8px; margin-top:5px; border-radius:6px;">
+                    <strong>Resposta:</strong> O setter bloqueia e exibe: "❌ Idade inválida! (0-150)".
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">🧪</span> <strong>Teste 3:</strong> No Exemplo 2, tente acessar diretamente <code>aluno.nota = 10;</code>. O que acontece?
+                <div style="background:#f8f9fa; padding:8px; margin-top:5px; border-radius:6px;">
+                    <strong>Resposta:</strong> Erro de compilação! O atributo é <code>private</code>, não pode ser acessado diretamente.
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">🧪</span> <strong>Teste 4:</strong> No Exemplo 1, mude os atributos para <code>public</code>. O que muda?
+                <div style="background:#f8f9fa; padding:8px; margin-top:5px; border-radius:6px;">
+                    <strong>Resposta:</strong> Fica acessível de qualquer lugar (outros pacotes também). Continua sem validação.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 6: DESAFIOS -->
+    <!-- ============================================================ -->
+    <div id="desafios" class="tab-content">
+        <div class="card">
+            <h2>🏆 Desafios Práticos</h2>
+
+            <div class="highlight info">
+                🎯 <strong>INSTRUÇÕES:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>Crie uma classe separada para cada desafio no pacote <strong>tema07</strong></li>
+                    <li>Use os conceitos de POO aprendidos</li>
+                    <li>📸 Tire print do código e do resultado de cada desafio</li>
+                </ul>
+            </div>
+
+            <!-- DESAFIO 1 -->
+            <h3 style="margin-top: 20px;">🧩 Desafio 1: Classe Produto (com encapsulamento)</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioProduto.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma classe <strong>Produto</strong> com atributos privados: <code>nome</code>, <code>preco</code>, <code>quantidade</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie <strong>getters e setters</strong> para cada atributo
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um método <code>aplicarDesconto(double percentual)</code> que reduz o preço (valida entre 0-100%)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um método <code>exibirInfo()</code> que mostra todos os dados
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> No <code>main</code> da própria classe, teste com valores válidos e inválidos
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+--- TESTE: Valores válidos ---<br>
+Produto: Notebook<br>
+Preço: R$ 3500.0<br>
+Quantidade: 10<br>
+<br>
+--- APLICANDO DESCONTO ---<br>
+Desconto de 10% aplicado!<br>
+Novo preço: R$ 3150.0<br>
+<br>
+--- TESTE: Desconto inválido ---<br>
+❌ Desconto inválido! Use entre 0 e 100.
+            </div>
+
+            <!-- DESAFIO 2 -->
+            <h3 style="margin-top: 25px;">🧩 Desafio 2: Classe ContaBancaria</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioConta.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma classe <strong>ContaBancaria</strong> com atributos privados: <code>titular</code>, <code>numero</code>, <code>saldo</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie <strong>getters</strong> para todos e <strong>setters</strong> apenas para titular e número
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie métodos: <code>depositar(double valor)</code> e <code>sacar(double valor)</code> (validar saldo)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um método <code>exibirSaldo()</code> para mostrar os dados
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> No <code>main</code>, teste depósitos, saques e tentativas de saque sem saldo
+            </div>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div class="card">
+            <h2>✅ Checklist de Entrega</h2>
+
+            <div class="step">
+                <span class="step-number">📁</span> Criei as classes no pacote <strong>tema07</strong>:
+                <ul style="margin-left: 30px; margin-top: 8px;">
+                    <li><code>DesafioProduto.java</code></li>
+                    <li><code>DesafioConta.java</code></li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">📸</span> Tirei print do <strong>código</strong> de cada desafio
+            </div>
+
+            <div class="step">
+                <span class="step-number">📸</span> Tirei print do <strong>resultado</strong> (saída no console) de cada desafio
+            </div>
+
+            <div class="step">
+                <span class="step-number">📤</span> Salvei os arquivos no repositório <strong>java7</strong>
+            </div>
+
+            <div class="highlight success" style="margin-top: 15px;">
+                📤 <strong>Entregar:</strong> Prints do código e resultado de cada desafio + link do repositório <strong>java7</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>📚 TEMA 07 - POO | Conceitos Iniciais em Java</p>
+        <p>🎯 Classes | Objetos | Atributos | Métodos | Encapsulamento</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // Sistema de abas
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.getAttribute('data-tab');
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Função de copiar código
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>
